@@ -1,3 +1,15 @@
+#' Calculate basic reproduction number R0
+#'
+#' @param S A matrix of state transition rates between and removal from the susceptible states in the absence of colonized individuals
+#' @param C A matrix of state transition rates between and removal from the colonized states
+#' @param A A matrix describing transitions from susceptible to colonized states at acquisition
+#' @param transm A vector of transmission rates from each colonized state
+#' @param initS A vector of admission state probabilities to each susceptible state
+#' @param mgf The moment generating function characterizing the time-of-stay-dependent removal hazard
+#'
+#' @return A number (R0)
+#' @export
+#'
 #' @importFrom MASS ginv
 facilityR0 <- function(S,C,A,transm,initS,mgf){
   K <- function(x, deriv = 0)
