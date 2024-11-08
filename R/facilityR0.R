@@ -1,3 +1,4 @@
+#' @importFrom MASS ginv
 facilityR0 <- function(S,C,A,transm,initS,mgf){
   K <- function(x, deriv = 0)
     ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
