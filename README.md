@@ -38,11 +38,14 @@ patients and vulnerability to acquisition from other patients,
 respectively.
 
 A system of differential equations with those 4 compartments may take
-the following general form: $$
-\frac{dS_1}{dt} = -(s_{21}+(a_{11}+a_{21})\alpha+\omega_1+h(t))S_1 + s_{12}S_2 + r_{11}C_1 + r_{12}C_2
-$$
+the following general form:
+
+$$\frac{dS_1}{dt} = -(s_{21}+(a_{11}+a_{21})\alpha+\omega_1+h(t))S_1 + s_{12}S_2 + r_{11}C_1 + r_{12}C_2$$
+
 $$\frac{dS_2}{dt} = s_{21}S_1 - (s_{12}+(a_{12}+a_{22})\alpha+\omega_2+h(t))S_2 + r_{21}C_1 + r_{22}C_2 $$
+
 $$\frac{dC_1}{dt} = a_{11}\alpha S_1 + a_{12}\alpha S_2 - (c_{21}+r_{11}+r_{21}+\omega_3+h(t))C_1 + c_{12}C_2 $$
+
 $$\frac{dC_2}{dt} = a_{21}\alpha S_1 + a_{22}\alpha S_2 + c_{21}C_1 - (c_{12}+r_{12}+r_{22}+\omega_4+h(t))C_2 $$
 
 The acquisition rate $\alpha$ appearing in each equation, and governing
