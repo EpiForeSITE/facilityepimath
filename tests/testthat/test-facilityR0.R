@@ -84,3 +84,34 @@ test_that("facilityR0() works for typical Model 4", {
                           A = rbind(c(1,0),c(0,1-eps),c(0,0)),
                           transm = bet*c(1,1-eps,1-eps), initS = c(1,0), mgf = mgf), R0exact, tolerance = sqrt(.Machine$double.eps))
 })
+
+test_that("facilityR0() works for special case Model 4", {
+  prob <- c(0.58, 1-0.58)
+  rate <- c(0.0285, 0.179)
+  shape <- c(1, 5.74)
+  bet <- 0.051
+  gam <- 0.03
+  dc <- 0.00845
+  eps <- 0.55
+  ds <- 0.07
+  gamd <- 0.1
+  gd <- gamd-gam
+
+  expect_true(ds == gd)
+
+  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
+    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
+
+  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+
+  K <- function(x, deriv = 0)
+    ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
+
+  R0exact <- bet/(ds+dc+gam)*((1-(1-eps)*((dc-ds)/(ds+dc+gam)+(2*ds*dc)/(ds+dc+gam)^2))*(1-K(-ds-dc-gam)/K(0))+
+                                      (1-eps)*(((ds*dc)/(ds+dc+gam)-ds)*(K(-ds-dc-gam,1))/K(0)+(dc+(ds*dc)/(ds+dc+gam))*K(0,1)/K(0)))
+
+  expect_equal(facilityR0(S = rbind(c(0,0),c(0,0)),
+                          C = rbind(c(-ds-dc-gam,0,0),c(ds,-dc-gamd,0),c(dc,dc,0)),
+                          A = rbind(c(1,0),c(0,1-eps),c(0,0)),
+                          transm = bet*c(1,1-eps,1-eps), initS = c(1,0), mgf = mgf), R0exact, tolerance = sqrt(.Machine$double.eps))
+})
