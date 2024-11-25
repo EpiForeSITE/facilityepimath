@@ -16,7 +16,7 @@ facilityeq <- function(Sfun,C,Afun,R,transm,init,mgf){
   K <- Vectorize(K,'x')
 
   mfun <- function(alpha) rbind(cbind(Sfun(alpha),R),cbind(Afun(alpha),C))
-  colinds <- (nrow(R)+1):(nrow(R)+nrow(C))
+  colinds <- (nrow(as.matrix(R))+1):(nrow(as.matrix(R))+nrow(as.matrix(C)))
 
   getbeta <- function(alpha){
     eq <- equilib(mfun(alpha),init,K)
