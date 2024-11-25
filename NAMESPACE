@@ -3,3 +3,4 @@
 export(facilityR0)
 export(facilityeq)
 importFrom(MASS,ginv)
+importFrom(stats,optimize)

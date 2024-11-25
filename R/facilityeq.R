@@ -7,7 +7,7 @@
 #' @param transm A vector of transmission rates from each colonized state
 #' @param init A vector of admission state probabilities to each state
 #' @param mgf The moment generating function characterizing a time-of-stay-dependent removal hazard
-#'
+#' @importFrom stats optimize
 #' @return A vector with the proportion of patients in each state at equilibrium
 #' @export
 facilityeq <- function(Sfun,C,Afun,R,transm,init,mgf){

@@ -4,7 +4,7 @@
 \alias{facilityeq}
 \title{Calculate the equilibrium of a facility transmission model}
 \usage{
-facilityeq(Sfun, C, Afun, R, transm, initS, mgf)
+facilityeq(Sfun, C, Afun, R, transm, init, mgf)
 }
 \arguments{
 \item{Sfun}{A function that produces a matrix of state transition rates between and removal from the susceptible states for a given value of the acquisition rate}
@@ -17,9 +17,9 @@ facilityeq(Sfun, C, Afun, R, transm, initS, mgf)
 
 \item{transm}{A vector of transmission rates from each colonized state}
 
-\item{mgf}{The moment generating function characterizing a time-of-stay-dependent removal hazard}
-
 \item{init}{A vector of admission state probabilities to each state}
+
+\item{mgf}{The moment generating function characterizing a time-of-stay-dependent removal hazard}
 }
 \value{
 A vector with the proportion of patients in each state at equilibrium
