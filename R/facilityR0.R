@@ -18,6 +18,12 @@ facilityR0 <- function(S,C,A,transm,initS,mgf){
   Sadj <- as.matrix(S)[impS,impS]
   Aadj <- as.matrix(A)[,impS]
 
+  if(is.null(mgf)){
+    Ssol <- solve(Sadj, initSadj)
+    R0 <- -sum(transm * solve(C, Aadj %*% Ssol)) / sum(Ssol)
+    return(R0)
+  }
+
   K <- function(x, deriv = 0)
     ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
   K <- Vectorize(K,'x')
