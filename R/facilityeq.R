@@ -10,10 +10,13 @@
 #' @importFrom stats optimize
 #' @return A vector with the proportion of patients in each state at equilibrium
 #' @export
-facilityeq <- function(Sfun,C,Afun,R,transm,init,mgf){
-  K <- function(x, deriv = 0)
-    ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
-  K <- Vectorize(K,'x')
+facilityeq <- function(Sfun,C,Afun,R,transm,init,mgf=NULL){
+  K <- NULL
+  if(!is.null(mgf)){
+    K <- function(x, deriv = 0)
+      ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
+    K <- Vectorize(K,'x')
+  }
 
   mfun <- function(alpha) rbind(cbind(Sfun(alpha),R),cbind(Afun(alpha),C))
   colinds <- (nrow(as.matrix(R))+1):(nrow(as.matrix(R))+nrow(as.matrix(C)))

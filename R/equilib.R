@@ -1,4 +1,8 @@
 equilib <- function(W, init, K){
+  if(is.null(K)){
+    WinvInit <- solve(W,init)
+    return(WinvInit/sum(MinvInit))
+  }
   eig <- eigen(W)
   solveV <- solve(eig$vectors,init)
   Klamb <- K(eig$values)
