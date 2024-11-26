@@ -115,3 +115,38 @@ test_that("facilityR0() works for special case Model 4", {
                           A = rbind(c(1,0),c(0,1-eps),c(0,0)),
                           transm = bet*c(1,1-eps,1-eps), initS = c(1,0), mgf = mgf), R0exact, tolerance = sqrt(.Machine$double.eps))
 })
+
+test_that("facilityR0() matrix version works for Model 1", {
+  prob <- 1
+  rate <- 0.0285
+  shape <- 1
+  bet <- 0.051
+
+  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
+    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
+
+  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+
+  R0exact <- bet * mgf(0,2) / mgf(0,1) / 2
+
+  expect_equal(facilityR0(S = -rate, C = -rate, A = 1, transm = bet, initS = 1), R0exact, tolerance = sqrt(.Machine$double.eps))
+})
+
+test_that("facilityR0() matrix version works for Model 2", {
+  prob <- 1
+  rate <- 0.0285
+  shape <- 1
+  bet <- 0.051
+  gam <- 0.0026
+
+  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
+    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
+
+  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+
+  K <- function(x) (mgf(x)-1)/x
+
+  R0exact <- bet / gam * (1 - K(-gam) / mgf(0,1))
+
+  expect_equal(facilityR0(S = -rate, C = -gam-rate, A = 1, transm = bet, initS = 1), R0exact, tolerance = sqrt(.Machine$double.eps))
+})

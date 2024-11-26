@@ -11,7 +11,7 @@
 #'
 #' @return A number (R0)
 #' @export
-facilityR0 <- function(S,C,A,transm,initS,mgf){
+facilityR0 <- function(S,C,A,transm,initS,mgf=NULL){
 
   impS <- (initS > 0)
   initSadj <- initS[impS]
