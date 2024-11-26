@@ -16,7 +16,7 @@ facilityR0 <- function(S,C,A,transm,initS,mgf=NULL){
   impS <- (initS > 0)
   initSadj <- initS[impS]
   Sadj <- as.matrix(S)[impS,impS]
-  Aadj <- as.matrix(A)[,impS]
+  Aadj <- as.matrix(as.matrix(A)[,impS])
 
   if(is.null(mgf)){
     Ssol <- solve(Sadj, initSadj)
