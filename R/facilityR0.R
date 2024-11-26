@@ -14,9 +14,9 @@
 facilityR0 <- function(S,C,A,transm,initS,mgf=NULL){
 
   Smat <- as.matrix(S)
-  impS <- (initS > 0)
+  impS <- solve(Smat-diag(runif(nrow(Smat)),nrow(Smat)),initS) != 0
   initSadj <- initS[impS]
-  Sadj <- as.matrix(S)[impS,impS]
+  Sadj <- Smat[impS,impS]
   Aadj <- as.matrix(as.matrix(A)[,impS])
 
   if(is.null(mgf)){
