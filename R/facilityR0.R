@@ -12,14 +12,15 @@
 #' @return A number (R0)
 #' @export
 facilityR0 <- function(S,C,A,transm,initS,mgf){
-  K <- function(x, deriv = 0)
-    ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
-  K <- Vectorize(K,'x')
 
   impS <- (initS > 0)
   initSadj <- initS[impS]
   Sadj <- as.matrix(S)[impS,impS]
   Aadj <- as.matrix(A)[,impS]
+
+  K <- function(x, deriv = 0)
+    ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
+  K <- Vectorize(K,'x')
 
   n <- nrow(as.matrix(Sadj))
   m <- nrow(as.matrix(C))
