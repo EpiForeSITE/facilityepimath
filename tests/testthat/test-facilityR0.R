@@ -132,6 +132,25 @@ test_that("facilityR0() matrix version works for Model 1", {
   expect_equal(facilityR0(S = -rate, C = -rate, A = 1, transm = bet, initS = 1), R0exact, tolerance = sqrt(.Machine$double.eps))
 })
 
+test_that("facilityR0() matrix/erlang version works for Model 1", {
+  prob <- 1
+  rate <- 0.0285
+  shape <- 2
+  bet <- 0.051
+
+  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
+    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
+
+  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+
+  R0exact <- bet * mgf(0,2) / mgf(0,1) / 2
+
+  expect_equal(facilityR0(S = rbind(c(-rate,0),c(rate,-rate)),
+                          C = rbind(c(-rate,0),c(rate,-rate)),
+                          A = rbind(c(1,0),c(0,1)),
+                          transm = c(bet,bet), initS = c(1,0)), R0exact, tolerance = sqrt(.Machine$double.eps))
+})
+
 test_that("facilityR0() matrix version works for Model 2", {
   prob <- 1
   rate <- 0.0285

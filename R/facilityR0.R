@@ -13,6 +13,7 @@
 #' @export
 facilityR0 <- function(S,C,A,transm,initS,mgf=NULL){
 
+  Smat <- as.matrix(S)
   impS <- (initS > 0)
   initSadj <- initS[impS]
   Sadj <- as.matrix(S)[impS,impS]
