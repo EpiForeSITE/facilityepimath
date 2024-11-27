@@ -1,7 +1,7 @@
 equilib <- function(W, init, K){
   if(is.null(K)){
-    WinvInit <- solve(W,init)
-    return(WinvInit/sum(MinvInit))
+    WinvInit <- as.vector(solve(W,init))
+    return(WinvInit/sum(WinvInit))
   }
   eig <- eigen(W)
   solveV <- solve(eig$vectors,init)
