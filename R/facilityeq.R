@@ -26,13 +26,9 @@ facilityeq <- function(Sfun,C,Afun,R,transm,init,mgf=NULL){
     alpha/sum(eq[colinds]*transm)
   }
 
-  getalpha <- function(beta){
-    err <- function(x) (getbeta(x) - beta)^2
-    maxalpha <- 1
-    while(getbeta(maxalpha) < beta) maxalpha <- maxalpha*10
-    optimize(f = err, interval = c(0,maxalpha), tol=1e-10)$minimum
-  }
+  maxalpha <- 1
+  while(getbeta(maxalpha) < 1) maxalpha <- maxalpha*10
+  alpha <- optimize(f = function(x) (getbeta(x) - 1)^2, interval = c(0,maxalpha), tol=1e-10)$minimum
 
-  alpha <- getalpha(1)
   equilib(mfun(alpha),init,K)
 }
