@@ -8,6 +8,7 @@
 #' @param mgf The moment generating function characterizing the time-of-stay-dependent removal hazard
 #'
 #' @importFrom MASS ginv
+#' @importFrom stats runif
 #'
 #' @return A number (R0)
 #' @export

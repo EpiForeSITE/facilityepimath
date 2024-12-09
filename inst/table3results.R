@@ -52,32 +52,45 @@ mgf <- function(x, deriv=0) MGFmixedgamma(x, prob = c(losPrm['px'],1-losPrm['px'
                                           rate = c(losPrm['rx'],losPrm['rg']),
                                           shape = c(1,losPrm['k']), deriv)
 
-Sfun <- function(x) -x
-Afun <- function(x) rbind(x,0)
+Sfun <- function(a) -a
+Afun <- function(a) rbind(a,0)
+Cfun <- function(d) rbind(c(-gam-d,0),c(d,0))
 R <- cbind(gam,0)
-transm <- bet*c(1,1-eps)
+transm <- c(1,1-eps)
+colStates <- 2:3
+preClinStates <- 2
 
 getCalibModel3 <- function(p){
 
 	init <- c(1-p['PA'],p['PA'],0)
-	C <- rbind(c(-gam-statePrm['delClin'],0),c(statePrm['delClin'],0))
 
-	colStates <- 2:3
-	preClinStates <- 2
+	getequilib <- function(statePrm){
+	  C <- Cfun(statePrm['deltaC'])
+	  S <- Sfun(statePrm['alpha'])
+	  A <- Afun(statePrm['alpha'])
+	  W <- rbind(cbind(S,R),cbind(A,C))
+	  equilib(W,init,mgf)
+	}
 
 	errFn <- function(statePrm){
-		eq <- facilityeq(Sfun,C,Afun,R,transm,init,mgf)
+		eq <- getequilib(statePrm)
 		eqPrev <- sum(eq[colStates]) * 100
-		eqClin <- sum(eq[preClinStates]) * statePrm['delClin'] * 10000
+		eqClin <- sum(eq[preClinStates]) * statePrm['deltaC'] * 10000
 		sum((c(eqPrev,eqClin) - c(p['P']*100, p['clinDetInc']*10000))^2)
 	}
 
-	sol <- optim(c(alpha = 0.018, delClin = 0.008), errFn, control=list(reltol=1e-18,maxit=10000))
+	sol <- optim(c(alpha = 0.018, deltaC = 0.008), errFn, control=list(reltol=1e-18,maxit=10000))
 	solState <- sol$par
-	solEq <- getEq(do.call(getW,as.list(solState)), init, K)
-	solBet <- as.numeric(solState['alpha']/sum(solEq[colStates]*transm))
-	RF <- getRF(bet=solBet, dc=solState['delClin'])
-	c(bet=solBet,solState['delClin'],RF=as.numeric(RF))
+	solEq <- getequilib(solState)
+	solBeta <- as.numeric(solState['alpha']/sum(solEq[colStates]*transm))
+	R0 <- facilityR0(S = Sfun(0),
+	                 C = Cfun(solState['deltaC']),
+	                 A = Afun(1),
+	                 transm = solBeta*transm,
+	                 initS = 1,
+	                 mgf = mgf)
+
+	c(beta=solBeta,solState['deltaC'],R0=as.numeric(R0))
 }
 
 get95ci <- function(d){
@@ -87,35 +100,24 @@ get95ci <- function(d){
 }
 
 p <- c(PA = haydenSet['admPos','mean'] / snstvty,
-	 P = haydenSet['xSecPos','mean'] / snstvty,
-	 clinDetInc = haydenSet['clinDetInc','mean'])
+       P = haydenSet['xSecPos','mean'] / snstvty,
+       clinDetInc = haydenSet['clinDetInc','mean'])
 
 meanModel3 <- getCalibModel3(p)
 
 meanTable <- matrix(NA,7,1)
-rownames(meanTable) <- c('probExp','expRate','gammaRate','gammaShape','bet','delClin','RF')
-colnames(meanTable) <- paste0('Model',3)
+rownames(meanTable) <- c(names(losPrm),names(meanModel3))
+colnames(meanTable) <- 'Estimate'
+meanTable[names(losPrm),1] <- losPrm
 meanTable[names(meanModel3),1] <- meanModel3
-meanTable['probExp',1] <- losPrm['px']
-meanTable['expRate',1] <- losPrm['rx']
-meanTable['gammaRate',1] <- losPrm['rg']
-meanTable['gammaShape',1] <- losPrm['k']
-
-RFnum3 <- facilityR0(S = 0,
-			   C = rbind(c(-meanModel3['delClin']-gam, 0),
-				       c(meanModel3['delClin']     , 0)),
-			   A = rbind(1,0),
-			   transm = meanModel3['bet']*c(1,1-eps),
-			   initS = 1, mgf)
 
 mcModel3 <- matrix(0,numRuns,3)
 colnames(mcModel3) <- names(meanModel3)
 
 for(n in 1:numRuns){
 	p <- c(PA = getLHSval('admPos',n) / snstvty,
-		 P = getLHSval('xSecPos',n) / snstvty,
-		 clinDetInc = getLHSval('clinDetInc',n),
-		 bloodInc = getLHSval('bloodInc',n))
+	       P = getLHSval('xSecPos',n) / snstvty,
+	       clinDetInc = getLHSval('clinDetInc',n))
 	mcModel3[n,] <- getCalibModel3(p)
 }
 

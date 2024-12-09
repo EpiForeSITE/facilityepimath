@@ -4,7 +4,7 @@
 \alias{facilityeq}
 \title{Calculate the equilibrium of a facility transmission model}
 \usage{
-facilityeq(Sfun, C, Afun, R, transm, init, mgf)
+facilityeq(Sfun, C, Afun, R, transm, init, mgf = NULL)
 }
 \arguments{
 \item{Sfun}{A function that produces a matrix of state transition rates between and removal from the susceptible states for a given value of the acquisition rate}

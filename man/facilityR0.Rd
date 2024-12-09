@@ -4,7 +4,7 @@
 \alias{facilityR0}
 \title{Calculate basic reproduction number R0}
 \usage{
-facilityR0(S, C, A, transm, initS, mgf)
+facilityR0(S, C, A, transm, initS, mgf = NULL)
 }
 \arguments{
 \item{S}{A matrix of state transition rates between and removal from the susceptible states in the absence of colonized individuals}
