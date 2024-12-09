@@ -11,18 +11,12 @@
 #' @return A vector with the proportion of patients in each state at equilibrium
 #' @export
 facilityeq <- function(Sfun,C,Afun,R,transm,init,mgf=NULL){
-  K <- NULL
-  if(!is.null(mgf)){
-    K <- function(x, deriv = 0)
-      ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
-    K <- Vectorize(K,'x')
-  }
 
   mfun <- function(alpha) rbind(cbind(Sfun(alpha),R),cbind(Afun(alpha),C))
   colinds <- (nrow(as.matrix(R))+1):(nrow(as.matrix(R))+nrow(as.matrix(C)))
 
   getbeta <- function(alpha){
-    eq <- equilib(mfun(alpha),init,K)
+    eq <- equilib(mfun(alpha),init,mgf)
     alpha/sum(eq[colinds]*transm)
   }
 
@@ -30,5 +24,5 @@ facilityeq <- function(Sfun,C,Afun,R,transm,init,mgf=NULL){
   while(getbeta(maxalpha) < 1) maxalpha <- maxalpha*10
   alpha <- optimize(f = function(x) (getbeta(x) - 1)^2, interval = c(0,maxalpha), tol=1e-10)$minimum
 
-  equilib(mfun(alpha),init,K)
+  equilib(mfun(alpha),init,mgf)
 }
