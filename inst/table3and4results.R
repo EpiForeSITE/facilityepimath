@@ -1,4 +1,4 @@
-# This code produces the results in Table 3 of the manuscript:
+# This code produces the results in Tables 3 and 4 of the manuscript:
 # "Transmission thresholds for the spread of infections in healthcare facilities"
 
 rm(list=ls())
