@@ -3,6 +3,7 @@
 export(equilib)
 export(facilityR0)
 export(facilityeq)
+export(meanlengthofstay)
 importFrom(MASS,ginv)
 importFrom(stats,optimize)
 importFrom(stats,runif)
