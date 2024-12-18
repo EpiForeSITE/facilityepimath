@@ -17,9 +17,6 @@ MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
 
 getMu <- function(px, rx, rg) px/rx + (1-px)*k/rg
 
-getSigsq <- function(px, rx, rg)
-  2*px/rx^2 + (1-px)*k*(k+1)/rg^2 - (px/rx + (1-px)*k/rg)^2
-
 getR0intervention <- function(px, rx, rg){
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob = c(px, 1-px),
@@ -44,12 +41,6 @@ murg <- matrix(0,pts,1)
 mus <- matrix(0,pts,1)
 mupx <- matrix(0,pts,1)
 
-sigsqrxrg <- matrix(0,pts,1)
-sigsqrx <- matrix(0,pts,1)
-sigsqrg <- matrix(0,pts,1)
-siqsqs <- matrix(0,pts,1)
-sigsqpx <- matrix(0,pts,1)
-
 rxsBoth <- rx*(1+chng)
 rgsBoth <- rg*(1+chng)
 rxs <- rx*(1+chng)
@@ -58,20 +49,15 @@ pxs <- px*(1-chng)
 
 R0rxrg[,1] <- getR0intervention(px, rxsBoth, rgsBoth)
 murxrg[,1] <- getMu(px, rxsBoth, rgsBoth)
-sigsqrxrg[,1] <- getSigsq(px, rxsBoth, rgsBoth)
 R0rx[,1] <- getR0intervention(px, rxs, rg)
 murx[,1] <- getMu(px, rxs, rg)
-sigsqrx[,1] <- getSigsq(px, rxs, rg)
 R0rg[,1] <- getR0intervention(px, rx, rgs)
 murg[,1] <- getMu(px, rx, rgs)
-sigsqrg[,1] <- getSigsq(px, rx, rgs)
 R0px[,1] <- getR0intervention(pxs, rx, rg)
 mupx[,1] <- getMu(pxs, rx, rg)
-sigsqpx[,1] <- getSigsq(pxs, rx, rg)
 
 R0lim <- c(0.8,1.3); R0labs <- seq(0.8,1.3,0.1)
 muLim <- c(25,35); muLabs <- seq(25,35,2)
-sigsqLim <- c(200,900); sigsqLabs <- seq(200,900,100)
 
 getPlotVal <- function(val,lim) (val-lim[1])/diff(lim)
 
@@ -79,7 +65,7 @@ x <- matrix(rep(chng,1),pts,1)*100
 
 par(mfrow=c(2,2))
 
-doPlot <- function(R0vals,muVals,sigsqVals,title){
+doPlot <- function(R0vals,muVals,title){
   matplot(1/muVals,getPlotVal(R0vals,R0lim),lwd=2,
           type='l',lty=1,ylim=c(0,1),ylab = 'Facility R0',
           xlab = 'Mean length of stay', xlim = c(1/34, 1/26), axes=FALSE, main=title)
@@ -88,7 +74,7 @@ doPlot <- function(R0vals,muVals,sigsqVals,title){
   lines(c(-100,200),getPlotVal(c(1,1),R0lim),col='grey',lty=3)
 }
 
-doPlot(R0rxrg,murxrg,sigsqrxrg,'Increase discharge rate of all patients')
-doPlot(R0rx,murx,sigsqrx,'Increase discharge rate of high-variance patients')
-doPlot(R0rg,murg,sigsqrg,'Increase discharge rate of low-variance patients')
-doPlot(R0px,mupx,sigsqpx,'Decrease fraction of high-variance patients')
+doPlot(R0rxrg,murxrg,'Increase discharge rate of all patients')
+doPlot(R0rx,murx,'Increase discharge rate of high-variance patients')
+doPlot(R0rg,murg,'Increase discharge rate of low-variance patients')
+doPlot(R0px,mupx,'Decrease fraction of high-variance patients')
