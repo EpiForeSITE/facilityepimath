@@ -41,7 +41,7 @@ muRand <- getMu(rx=rxRand, rg=rgRand, k=kRand, px=pxRand)
 sigsqRand <- getSigsq(rx=rxRand, rg=rgRand, k=kRand, px=pxRand)
 
 randPlot <- function(statRand, xlabel){
-	plot(statRand, R0rand, pch='.', xlab=xlabel, ylab='Facility R0')
+	plot(statRand, R0rand, pch='.', xlab=xlabel, ylab=expression(paste("Facility ", italic(R)[0])))
 }
 
 par(mfrow=c(2,2),mar=c(5,4,2,2)+.1)
