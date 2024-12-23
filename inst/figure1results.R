@@ -56,24 +56,20 @@ murg[,1] <- getMu(px, rx, rgs)
 R0px[,1] <- getR0intervention(pxs, rx, rg)
 mupx[,1] <- getMu(pxs, rx, rg)
 
-R0lim <- c(0.8,1.3); R0labs <- seq(0.8,1.3,0.1)
-muLim <- c(25,35); muLabs <- seq(25,35,2)
-
-getPlotVal <- function(val,lim) (val-lim[1])/diff(lim)
+R0labs <- seq(0.8,1.3,0.1)
 
 x <- matrix(rep(chng,1),pts,1)*100
 
 par(mfrow=c(2,2))
 
 doPlot <- function(R0vals,muVals,title){
-  matplot(1/muVals,getPlotVal(R0vals,R0lim),lwd=2,
-          type='l',lty=1,ylim=c(0,1),ylab = 'Facility R0',
-          xlab = 'Mean length of stay', xlim = c(1/34, 1/26), axes=FALSE, main=title)
-  box(); axis(1, 1/seq(34,26), seq(34,26))
-  axis(2,getPlotVal(R0labs,R0lim),R0labs)
-  lines(c(-100,200),getPlotVal(c(1,1),R0lim),col='grey',lty=3)
+  plot(60-muVals, R0vals, lwd=2, axes=FALSE,
+       type='l', lty=1, ylab = expression(paste("Facility ", italic(R)[0])),
+       xlab = 'Mean days of stay', xlim = c(26,34), ylim = c(0.8,1.3), main=title)
+  box(); axis(1, seq(26,34), seq(34,26))
+  axis(2,R0labs,R0labs)
+  lines(c(-100,200),c(1,1),col='grey',lty=3)
 }
-
 doPlot(R0rxrg,murxrg,'Increase discharge rate of all patients')
 doPlot(R0rx,murx,'Increase discharge rate of high-variance patients')
 doPlot(R0rg,murg,'Increase discharge rate of low-variance patients')
