@@ -30,13 +30,11 @@ test_that("facilityeq() works for Model 1", {
 })
 
 test_that("facilityeq() matrix version works for Model 1", {
-  prob <- 1
   rate <- 0.0285
-  shape <- 1
   bet <- 0.051
   pa <- 0.011
 
-  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+  mgf <- function(x, deriv=0) MGFexponential(x, rate, deriv)
 
   K <- function(x, deriv = 0)
     ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
@@ -60,13 +58,12 @@ test_that("facilityeq() matrix version works for Model 1", {
 })
 
 test_that("facilityeq() matrix/erlang version works for Model 1", {
-  prob <- 1
   rate <- 0.0285
   shape <- 2
   bet <- 0.051
   pa <- 0.011
 
-  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+  mgf <- function(x, deriv=0) MGFgamma(x, rate, shape, deriv)
 
   K <- function(x, deriv = 0)
     ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
