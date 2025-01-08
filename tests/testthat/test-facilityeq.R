@@ -5,9 +5,6 @@ test_that("facilityeq() works for Model 1", {
   bet <- 0.051
   pa <- 0.011
 
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
-
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
   K <- function(x, deriv = 0)
@@ -39,9 +36,6 @@ test_that("facilityeq() matrix version works for Model 1", {
   bet <- 0.051
   pa <- 0.011
 
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
-
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
   K <- function(x, deriv = 0)
@@ -71,9 +65,6 @@ test_that("facilityeq() matrix/erlang version works for Model 1", {
   shape <- 2
   bet <- 0.051
   pa <- 0.011
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
@@ -105,9 +96,6 @@ test_that("facilityeq() works for Model 2", {
   bet <- 0.051
   gam <- 0.0026
   pa <- 0.011
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
@@ -143,9 +131,6 @@ test_that("facilityeq() works for Model 3", {
   dc <- 0.00845
   eps <- 0.55
   pa <- 0.011
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 

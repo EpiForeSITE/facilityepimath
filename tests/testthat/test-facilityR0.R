@@ -4,9 +4,6 @@ test_that("facilityR0() works for Model 1", {
   shape <- c(1, 5.74)
   bet <- 0.051
 
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
-
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
   R0exact <- bet * mgf(0,2) / mgf(0,1) / 2
@@ -20,9 +17,6 @@ test_that("facilityR0() works for Model 2", {
   shape <- c(1, 5.74)
   bet <- 0.051
   gam <- 0.0026
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
@@ -41,9 +35,6 @@ test_that("facilityR0() works for Model 3", {
   gam <- 0.0026
   dc <- 0.00845
   eps <- 0.55
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
@@ -67,9 +58,6 @@ test_that("facilityR0() works for typical Model 4", {
   gd <- gamd-gam
 
   expect_false(ds == gd)
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
@@ -99,9 +87,6 @@ test_that("facilityR0() works for special case Model 4", {
 
   expect_true(ds == gd)
 
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
-
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
   K <- function(x, deriv = 0)
@@ -122,9 +107,6 @@ test_that("facilityR0() matrix version works for Model 1", {
   shape <- 1
   bet <- 0.051
 
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
-
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
   R0exact <- bet * mgf(0,2) / mgf(0,1) / 2
@@ -137,9 +119,6 @@ test_that("facilityR0() matrix/erlang version works for Model 1", {
   rate <- 0.0285
   shape <- 2
   bet <- 0.051
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
@@ -158,9 +137,6 @@ test_that("facilityR0() matrix version works for Model 2", {
   bet <- 0.051
   gam <- 0.0026
 
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
-
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
   K <- function(x) (mgf(x)-1)/x
@@ -178,9 +154,6 @@ test_that("facilityR0() matrix version works for Model 3", {
   gam <- 0.0026
   dc <- 0.00845
   eps <- 0.55
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
@@ -204,9 +177,6 @@ test_that("facilityR0() matrix version works for typical Model 4", {
   gd <- gamd-gam
 
   expect_false(ds == gd)
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
@@ -235,9 +205,6 @@ test_that("facilityR0() matrix version works for special case Model 4", {
   gd <- gamd-gam
 
   expect_true(ds == gd)
-
-  MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-    sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
 
   mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
 
