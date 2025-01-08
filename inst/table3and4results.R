@@ -45,9 +45,6 @@ losSol <- optim(fn=function(x) do.call(losErrFn,as.list(c(dat,x))), par=parInit,
 
 losPrm <- losSol$par
 
-MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-	sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
-
 mgf <- function(x, deriv=0) MGFmixedgamma(x, prob = c(losPrm['px'],1-losPrm['px']),
                                           rate = c(losPrm['rx'],losPrm['rg']),
                                           shape = c(1,losPrm['k']), deriv)

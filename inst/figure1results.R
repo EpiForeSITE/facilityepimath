@@ -12,9 +12,6 @@ rx <- 0.02849861
 rg <- 0.17911358
 k <- 5.73518945
 
-MGFmixedgamma <- function(x, prob, rate, shape, deriv=0)
-  sum(exp(log(prob)+lgamma(shape+deriv)-lgamma(shape)-shape*log(1-x/rate)-deriv*log(rate-x)))
-
 getMu <- function(px, rx, rg) px/rx + (1-px)*k/rg
 
 getR0intervention <- function(px, rx, rg){
