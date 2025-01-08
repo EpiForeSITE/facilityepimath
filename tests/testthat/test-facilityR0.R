@@ -102,12 +102,10 @@ test_that("facilityR0() works for special case Model 4", {
 })
 
 test_that("facilityR0() matrix version works for Model 1", {
-  prob <- 1
   rate <- 0.0285
-  shape <- 1
   bet <- 0.051
 
-  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+  mgf <- function(x, deriv=0) MGFexponential(x, rate, deriv)
 
   R0exact <- bet * mgf(0,2) / mgf(0,1) / 2
 
@@ -115,12 +113,11 @@ test_that("facilityR0() matrix version works for Model 1", {
 })
 
 test_that("facilityR0() matrix/erlang version works for Model 1", {
-  prob <- 1
   rate <- 0.0285
   shape <- 2
   bet <- 0.051
 
-  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+  mgf <- function(x, deriv=0) MGFgamma(x, rate, shape, deriv)
 
   R0exact <- bet * mgf(0,2) / mgf(0,1) / 2
 
@@ -131,13 +128,11 @@ test_that("facilityR0() matrix/erlang version works for Model 1", {
 })
 
 test_that("facilityR0() matrix version works for Model 2", {
-  prob <- 1
   rate <- 0.0285
-  shape <- 1
   bet <- 0.051
   gam <- 0.0026
 
-  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+  mgf <- function(x, deriv=0) MGFexponential(x, rate, deriv)
 
   K <- function(x) (mgf(x)-1)/x
 
@@ -147,15 +142,13 @@ test_that("facilityR0() matrix version works for Model 2", {
 })
 
 test_that("facilityR0() matrix version works for Model 3", {
-  prob <- 1
   rate <- 0.0285
-  shape <- 1
   bet <- 0.051
   gam <- 0.0026
   dc <- 0.00845
   eps <- 0.55
 
-  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+  mgf <- function(x, deriv=0) MGFexponential(x, rate, deriv)
 
   K <- function(x) (mgf(x)-1)/x
 
@@ -165,9 +158,7 @@ test_that("facilityR0() matrix version works for Model 3", {
 })
 
 test_that("facilityR0() matrix version works for typical Model 4", {
-  prob <- 1
   rate <- 0.0285
-  shape <- 1
   bet <- 0.051
   gam <- 0.0026
   dc <- 0.00845
@@ -178,7 +169,7 @@ test_that("facilityR0() matrix version works for typical Model 4", {
 
   expect_false(ds == gd)
 
-  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+  mgf <- function(x, deriv=0) MGFexponential(x, rate, deriv)
 
   K <- function(x) (mgf(x)-1)/x
 
@@ -193,9 +184,7 @@ test_that("facilityR0() matrix version works for typical Model 4", {
 })
 
 test_that("facilityR0() matrix version works for special case Model 4", {
-  prob <- 1
   rate <- 0.0285
-  shape <- 1
   bet <- 0.051
   gam <- 0.03
   dc <- 0.00845
@@ -206,7 +195,7 @@ test_that("facilityR0() matrix version works for special case Model 4", {
 
   expect_true(ds == gd)
 
-  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+  mgf <- function(x, deriv=0) MGFexponential(x, rate, deriv)
 
   K <- function(x, deriv = 0)
     ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
