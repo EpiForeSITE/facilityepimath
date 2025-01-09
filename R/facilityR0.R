@@ -11,6 +11,16 @@
 #' @importFrom stats runif
 #'
 #' @return A number (R0)
+#'
+#' @examples
+#' S <- rbind(c(-1,2),c(1,-2))
+#' C <- rbind(c(-1.1,0),c(0.1,-0.9))
+#' A <- rbind(c(1,0),c(0,2))
+#' transm <- c(0.4,0.6)
+#' initS <- c(0.9,0.1)
+#' mgf <- function(x, deriv=0) MGFgamma(x, rate=0.01, shape=3.1, deriv)
+#' facilityR0(S,C,A,transm,initS,mgf)
+#'
 #' @export
 facilityR0 <- function(S,C,A,transm,initS,mgf=NULL){
 
