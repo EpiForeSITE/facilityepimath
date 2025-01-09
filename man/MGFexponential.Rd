@@ -4,7 +4,7 @@
 \alias{MGFexponential}
 \title{Evaluate the moment generating function (MGF) of the exponential distribution or a derivative of the MGF}
 \usage{
-MGFexponential(x, prob, rate, shape, deriv = 0)
+MGFexponential(x, rate, deriv = 0)
 }
 \arguments{
 \item{x}{The value at which to evaluate the MGF}
