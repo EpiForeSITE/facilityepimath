@@ -19,3 +19,9 @@ The mean length of stay
 \description{
 Calculate the mean length of stay for a linear facility model
 }
+\examples{
+M <- rbind(c(-1.1,2),c(1,-2.2))
+init <- c(0.9,0.1)
+mgf <- function(x, deriv=0) MGFgamma(x, rate=0.2, shape=3, deriv)
+meanlengthofstay(M, init, mgf)
+}
