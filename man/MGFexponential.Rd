@@ -19,3 +19,9 @@ The number resulting from the function evaluation
 \description{
 Evaluate the moment generating function (MGF) of the exponential distribution or a derivative of the MGF
 }
+\examples{
+# MGF of an exponential distribution, evaluated at -0.1:
+MGFexponential(-0.1, rate = 0.05)
+# Second moment of the distribution (second derivative evaluated at zero):
+MGFexponential(0, rate = 0.05, deriv = 2)
+}

@@ -6,7 +6,7 @@
 #' @param deriv An integer, the number of derivatives of the MGF to apply
 #' @return The number resulting from the function evaluation
 #' @examples
-#' # MGF of a 40/60 mixture of two gamma distributions, evaluated at -0.1:
+#' # MGF of a gamma distributions, evaluated at -0.1:
 #' MGFgamma(-0.1, rate = 0.7, shape = 3)
 #' # Second moment of the distribution (second derivative evaluated at zero):
 #' MGFgamma(0, rate = 0.7, shape = 3, deriv = 2)
