@@ -9,6 +9,16 @@
 #' @param mgf The moment generating function characterizing a time-of-stay-dependent removal hazard
 #' @importFrom stats optimize
 #' @return A vector with the proportion of patients in each state at equilibrium
+#' @examples
+#' Sfun <- function(x) -x
+#' C <- rbind(c(-0.38,0),c(0.08,0))
+#' Afun <- function(x) rbind(x,0)
+#' R <- cbind(0.3,0)
+#' transm <- c(0.1,0.05)
+#' init <- c(0.99,0.01,0)
+#' mgf <- function(x, deriv=0) MGFgamma(x, rate=0.2, shape=3, deriv)
+#' facilityeq(Sfun, C, Afun, R, transm, init, mgf)
+#'
 #' @export
 facilityeq <- function(Sfun,C,Afun,R,transm,init,mgf=NULL){
 
