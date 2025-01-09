@@ -10,7 +10,7 @@
 #' mgf <- function(x, deriv=0) MGFgamma(x, rate = 0.05, shape = 2.5, deriv)
 #' equilib(M, init, mgf)
 #' @export
-equilib <- function(M, init, mgf){
+equilib <- function(M, init, mgf=NULL){
   if(is.null(mgf)){
     MinvInit <- as.vector(solve(M,init))
     return(MinvInit/sum(MinvInit))
