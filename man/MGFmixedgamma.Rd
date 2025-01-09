@@ -25,7 +25,7 @@ Evaluate the moment generating function (MGF) of the mixed gamma distribution or
 }
 \examples{
 # MGF of a 40/60 mixture of two gamma distributions, evaluated at -0.1:
-MGFmixedgamma(-0.1, prob=c(0.4,0.6), rate=c(0.4,0.7), shape=c(0.5,3))
+MGFmixedgamma(-0.1, prob = c(0.4,0.6), rate = c(0.4,0.7), shape = c(0.5,3))
 # Second moment of the distribution (second derivative evaluated at zero):
-MGFmixedgamma(0, prob=c(0.4,0.6), rate=c(0.4,0.7), shape=c(0.5,3), deriv = 2)
+MGFmixedgamma(0, prob = c(0.4,0.6), rate = c(0.4,0.7), shape = c(0.5,3), deriv = 2)
 }
