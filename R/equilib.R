@@ -4,6 +4,11 @@
 #' @param init A vector of admission state probabilities to each state
 #' @param mgf The moment generating function characterizing a time-of-stay-dependent removal hazard
 #' @return A vector with the proportion of patients in each state at equilibrium
+#' @examples
+#' M <- rbind(c(-0.06,0.03,0),c(0.06,-0.08,0),c(0,0.05,0))
+#' init <- c(0.95,0.05,0)
+#' mgf <- function(x, deriv=0) MGFgamma(x, rate = 0.05, shape = 2.5, deriv)
+#' equilib(M, init, mgf)
 #' @export
 equilib <- function(M, init, mgf){
   if(is.null(mgf)){

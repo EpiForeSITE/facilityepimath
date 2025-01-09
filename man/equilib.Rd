@@ -19,3 +19,9 @@ A vector with the proportion of patients in each state at equilibrium
 \description{
 Calculate the equilibrium of a linear facility model
 }
+\examples{
+M <- rbind(c(-0.06,0.03,0),c(0.06,-0.08,0),c(0,0.05,0))
+init <- c(0.95,0.05,0)
+mgf <- function(x, deriv=0) MGFgamma(x, rate = 0.05, shape = 2.5, deriv)
+equilib(M, init, mgf)
+}
