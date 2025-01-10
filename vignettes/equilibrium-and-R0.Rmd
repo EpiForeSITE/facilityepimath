@@ -144,3 +144,6 @@ facilityR0(S,C,A,transm,initS,mgf)
 
 We will demonstrate how to calculate the equilibrium of the full system of equations, with a given set of initial conditions, i.e. distribution of patient states at admission, using the `facilityeq` function. The following components of the system are required as inputs to the function call below.
 
+### The `Sfun` function; susceptible state transitions
+
+A matrix `S` governing the transitions between, and out of, the states $S_1$ and $S_2$ in the absence of any colonized patients "invading" the facility (i.e., all state transitions except for acquiring colonization):
