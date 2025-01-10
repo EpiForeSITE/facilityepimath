@@ -35,11 +35,13 @@ The acquisition rate $\alpha$ appearing in each equation, and governing the tran
 
 \[ \alpha = \beta_1 C_1 + \beta_2 C_2 \]
 
-## Basic Reproduction Number $R_0$
+## Facility Basic Reproduction Number $R_0$
 
 We will demonstrate how to calculate the basic reproduction number $R_0$ of this system using the `facilityR0` function. The following components of the system are required as inputs to the function call below.
 
-A matrix `S` governing the transitions between, and out of, the states $S_1$ and $S_2$ in the absence of any colonized patients:
+### The `S` matrix; pre-invasion susceptible state transitions
+
+A matrix `S` governing the transitions between, and out of, the states $S_1$ and $S_2$ in the absence of any colonized patients "invading" the facility (i.e., all state transitions except for acquiring colonization):
 
 \[S = \left(
 \begin{matrix}
@@ -54,6 +56,8 @@ omega1 <- omega2 <- 0.1
 S <- rbind(c(-s21-omega1, s12), c(s21, -s12-omega2))
 ```
 The $s_{ij}$ rates can be used to model transitions between different patient states that might alter susceptibility to acquiring the modeled organism, for example risky treatment procedures, drug exposures, or protective measures. The $\omega_i$ rates model removal from the facility via discharge or death.
+
+### The `C` matrix; colonized state transitions
 
 Next, we require a matrix `C` governing the transitions between, and out of, the states $C_1$ and $C_2$:
 
@@ -71,6 +75,7 @@ C <- rbind(c(-c21-r11-r21-omega3, c12), c(c21, -c12-r12-r22-omega4))
 ```
 The $c_{ij}$ rates can be used to model transitions between different colonized patient states that might be observable in data and/or alter the patient's infectivity to other patients, for example clinical infection, detection status, or placement under protective measures. The $r_{ij}$ rates govern clearance of colonization (thus, transitions back to one of the susceptible states), while the $\omega_i$ rates model removal from the facility via discharge or death.
 
+### The `A` matrix; susceptible-to-colonized state transitions and relative susceptibility
 The next input requirement is a matrix `A` describing the S-to-C state transitions when an acquisition occurs:
 
 \[A = \left(
@@ -83,18 +88,23 @@ The next input requirement is a matrix `A` describing the S-to-C state transitio
 a11 <- 1; a22 <- 2; a12 <- a21 <- 0
 A <- rbind(c(a11,a12),c(a21,a22))
 ```
+The $a_ij$ rates describe which of the two colonized states can be entered from each of the two susceptible states at the moment of acquiring colonization; in the above example, state $S_1$ patients move only to state $C_1$ and state $S_2$ patients move only to state $C_2$. The $a_ij$ values also describe the \emph{relative} susceptibility of the two $S$ states; in the above example, state $S_2$ patients are twice as susceptible as state $S_1$ patients.
 
-A vector `transm` containing the $\beta$ coefficients (transmission rates from each colonized compartment) appearing in the $\alpha$ equation: $(\beta_1,\beta_2)$
+### The `transm` vector: transmission rates
+The next required input is a vector `transm` containing the $\beta$ coefficients (transmission rates from each colonized compartment) appearing in the $\alpha$ equation above: $(\beta_1,\beta_2)$
+```{r}
+beta1 <- 0.2; beta2 <- 0.3
+transm <- c(beta1, beta2)
+```
+The $\beta_j$ values describe the transmissibility of each colonized state; in this example, state $C_2$ patients are 50% more transmissible than state $C_1$ patients. When the levels of colonization in the facility are $C_1$ and $C_2$, the acquisition rate of an $S_i$ patient is $a_{ii}(\beta_1C_1+\beta_2C_2)$
 
+### The `initS` vector: susceptible state admission distribution
 A vector `initS` containing the admission state probabilities for the susceptible compartments only (i.e., the pre-invasion system before a colonized patient is introduced): $(\theta_1,1-\theta_1)$
 
 For now, we assume the remaining component, the time-of-stay-dependent removal rate $h(t)=0$.
 
 ```{r}
-beta1 <- 0.2; beta2 <- 0.3
 theta1 <- 0.9; theta2 <- 1 - theta1
-
-transm <- c(beta1, beta2)
 initS <- c(theta1, theta2)
 
 #mgf <- function(x, deriv=0) MGFgamma(x, rate=0.01, shape=3.1, deriv)
