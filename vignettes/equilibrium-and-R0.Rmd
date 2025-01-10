@@ -50,8 +50,8 @@ A matrix `C` governing the transitions between, and out of, the states $C_1$ and
 
 \[C = \left(
 \begin{matrix}
-    - (c_{21}+r_{11}+r_{21}+\omega_3) & c_{12} \\
-    c_{21} & - (c_{12}+r_{12}+r_{22}+\omega_4)
+    -c_{21}-r_{11}-r_{21}-\omega_3 & c_{12} \\
+    c_{21} & -c_{12}-r_{12}-r_{22}-\omega_4
 \end{matrix}\right)
 \]
 
@@ -68,16 +68,26 @@ A vector `transm` containing the $\beta$ coefficients (transmission rates from e
 
 A vector `initS` containing the admission state probabilities for the susceptible compartments only (i.e., the pre-invasion system before a colonized patient is introduced): $(\theta_1,1-\theta_1)$
 
-A function `mgf(x,deriv)` that is the moment-generating function (and its derivatives) of the distribution for which the time-of-stay-dependent removal rate `h(t)` is the hazard function. This is the length of stay distribution when the state-dependent removal rates $\omega$ are zero.
+For now, we assume the remaining component, the time-of-stay-dependent removal rate $h(t)=0$.
 
 ```{r example}
 library(facilityepimath)
-S <- rbind(c(-1,2),c(1,-2))
-C <- rbind(c(-1.1,0),c(0.1,-0.9))
-A <- rbind(c(1,0),c(0,2))
-transm <- c(0.4,0.6)
-initS <- c(0.9,0.1)
+s21 <- 1; s12 <- 2
+c21 <- 0.1; c12 <- 0
+r11 <- r22 <- 0.1; r12 <- r21 <- 0
+omega1 <- omega2 <- omega3 <- omega4 <- 0.1
+a11 <- 1; a22 <- 2; a12 <- a21 <- 0
+beta1 <- 0.2; beta2 <- 0.3
+theta1 <- 0.9; theta2 <- 1 - theta1
 
-mgf <- function(x, deriv=0) MGFgamma(x, rate=0.01, shape=3.1, deriv)
-facilityR0(S,C,A,transm,initS,mgf)
+S <- rbind(c(-s21-omega1, s12), c(s21, -s12-omega2))
+C <- rbind(c(-c21-r11-r21-omega3, c12), c(c21, -c12-r12-r22-omega4))
+A <- rbind(c(a11,a12),c(a21,a22))
+transm <- c(beta1, beta2)
+initS <- c(theta1, theta2)
+
+#mgf <- function(x, deriv=0) MGFgamma(x, rate=0.01, shape=3.1, deriv)
+facilityR0(S,C,A,transm,initS)
 ```
+
+A function `mgf(x,deriv)` that is the moment-generating function (and its derivatives) of the distribution for which the time-of-stay-dependent removal rate $h(t)$ is the hazard function. This is the length of stay distribution when the state-dependent removal rates $\omega$ are zero.
