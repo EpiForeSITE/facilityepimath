@@ -35,6 +35,8 @@ The acquisition rate $\alpha$ appearing in each equation, and governing the tran
 
 \[ \alpha = \beta_1 C_1 + \beta_2 C_2 \]
 
+## Basic Reproduction Number $R_0$
+
 We will demonstrate how to calculate the basic reproduction number $R_0$ of this system using the `facilityR0` function. The following components of the system are required as inputs to the function call below.
 
 A matrix `S` governing the transitions between, and out of, the states $S_1$ and $S_2$ in the absence of any colonized patients:
@@ -46,7 +48,14 @@ A matrix `S` governing the transitions between, and out of, the states $S_1$ and
 \end{matrix}\right)
 \]
 
-A matrix `C` governing the transitions between, and out of, the states $C_1$ and $C_2$:
+```{r}
+s21 <- 1; s12 <- 2
+omega1 <- omega2 <- 0.1
+S <- rbind(c(-s21-omega1, s12), c(s21, -s12-omega2))
+```
+The $s_{ij}$ rates can be used to model transitions between different patient states that might alter susceptibility to acquiring the modeled organism, for example risky treatment procedures, drug exposures, or protective measures. The $\omega_i$ rates model removal from the facility via discharge or death.
+
+Next, we require a matrix `C` governing the transitions between, and out of, the states $C_1$ and $C_2$:
 
 \[C = \left(
 \begin{matrix}
@@ -54,8 +63,15 @@ A matrix `C` governing the transitions between, and out of, the states $C_1$ and
     c_{21} & -c_{12}-r_{12}-r_{22}-\omega_4
 \end{matrix}\right)
 \]
+```{r}
+c21 <- 0.1; c12 <- 0
+r11 <- r22 <- 0.1; r12 <- r21 <- 0
+omega3 <- omega4 <- 0.1
+C <- rbind(c(-c21-r11-r21-omega3, c12), c(c21, -c12-r12-r22-omega4))
+```
+The $c_{ij}$ rates can be used to model transitions between different colonized patient states that might be observable in data and/or alter the patient's infectivity to other patients, for example clinical infection, detection status, or placement under protective measures. The $r_{ij}$ rates govern clearance of colonization (thus, transitions back to one of the susceptible states), while the $\omega_i$ rates model removal from the facility via discharge or death.
 
-A matrix `A` describing the S-to-C state transitions when an acquisition occurs:
+The next input requirement is a matrix `A` describing the S-to-C state transitions when an acquisition occurs:
 
 \[A = \left(
 \begin{matrix}
@@ -63,6 +79,10 @@ A matrix `A` describing the S-to-C state transitions when an acquisition occurs:
     a_{21} & a_{22}
 \end{matrix}\right)
 \]
+```{r}
+a11 <- 1; a22 <- 2; a12 <- a21 <- 0
+A <- rbind(c(a11,a12),c(a21,a22))
+```
 
 A vector `transm` containing the $\beta$ coefficients (transmission rates from each colonized compartment) appearing in the $\alpha$ equation: $(\beta_1,\beta_2)$
 
@@ -70,19 +90,10 @@ A vector `initS` containing the admission state probabilities for the susceptibl
 
 For now, we assume the remaining component, the time-of-stay-dependent removal rate $h(t)=0$.
 
-```{r example}
-library(facilityepimath)
-s21 <- 1; s12 <- 2
-c21 <- 0.1; c12 <- 0
-r11 <- r22 <- 0.1; r12 <- r21 <- 0
-omega1 <- omega2 <- omega3 <- omega4 <- 0.1
-a11 <- 1; a22 <- 2; a12 <- a21 <- 0
+```{r}
 beta1 <- 0.2; beta2 <- 0.3
 theta1 <- 0.9; theta2 <- 1 - theta1
 
-S <- rbind(c(-s21-omega1, s12), c(s21, -s12-omega2))
-C <- rbind(c(-c21-r11-r21-omega3, c12), c(c21, -c12-r12-r22-omega4))
-A <- rbind(c(a11,a12),c(a21,a22))
 transm <- c(beta1, beta2)
 initS <- c(theta1, theta2)
 
