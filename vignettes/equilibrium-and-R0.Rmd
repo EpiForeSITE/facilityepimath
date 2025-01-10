@@ -101,14 +101,46 @@ The $\beta_j$ values describe the transmissibility of each colonized state; in t
 ### The `initS` vector: susceptible state admission distribution
 A vector `initS` containing the admission state probabilities for the susceptible compartments only (i.e., the pre-invasion system before a colonized patient is introduced): $(\theta_1,1-\theta_1)$
 
-For now, we assume the remaining component, the time-of-stay-dependent removal rate $h(t)=0$.
-
 ```{r}
 theta1 <- 0.9; theta2 <- 1 - theta1
 initS <- c(theta1, theta2)
+```
+The `initS` vector should sum to 1.
 
-#mgf <- function(x, deriv=0) MGFgamma(x, rate=0.01, shape=3.1, deriv)
+### `facilityR0` function call with $h(t)=0$
+
+The time-of-stay-dependent removal rate $h(t)$ is the remaining component in the master equations above. When $h(t)=0$, the above components are sufficient to calculate the facility $R_0$ as in the following example:
+
+```{r}
 facilityR0(S,C,A,transm,initS)
 ```
+Note that when $h(t)=0$, the removal rates (discharge and death) are entirely governed by the $\omega_i$ values, which must be set such that patients in any state must be guaranteed to eventually reach a state for which $\omega_i>0$; otherwise, patients can have an infinitely long length of stay in the facility.
 
-A function `mgf(x,deriv)` that is the moment-generating function (and its derivatives) of the distribution for which the time-of-stay-dependent removal rate $h(t)$ is the hazard function. This is the length of stay distribution when the state-dependent removal rates $\omega$ are zero.
+### The `mgf` function: moment generating function associated with $h(t) != 0$
+
+When the time-of-stay-dependent removal rate $h(t)\neq0$, there is one additional argument required as input to the `facilityR0` function: a function `mgf(x,deriv)` that is the moment-generating function (and its derivatives) of the distribution for which $h(t)$ is the hazard function. This is the length of stay distribution when the state-dependent removal rates $\omega$ are all zero, as in the following example.
+```{r}
+omega1 <- omega2 <- omega3 <- omega4 <- 0
+S <- rbind(c(-s21-omega1, s12), c(s21, -s12-omega2))
+C <- rbind(c(-c21-r11-r21-omega3, c12), c(c21, -c12-r12-r22-omega4))
+```
+The length of stay distribution can be any statistical distribution with non-negative range, as long as the moment generating function (mgf) and its derivatives can be evaluated, as this calculation is required within the $R_0$ formula. We currently provide three mgf functions in this package: one for the exponential distribution, `MGFexponential`, one for the gamma distribution `MGFgamma`, and one for a mixed gamma distribution `MGFmixedgamma`; the latter distribution can employ a weighted mixture of any number of different gamma distributions.
+
+The `mgf(x, deriv)` function to be passed to `facilityR0()` must be defined as in the following example, which uses a gamma distribution.
+
+```{r}
+mgf <- function(x, deriv=0) MGFgamma(x, rate=0.1, shape=3.1, deriv)
+```
+
+### `facilityR0` function call with $h(t)\neq0$
+
+The call to `facilityR0()` is the same as above with the additional argument `mgf` (which defaulted to `NULL` when not provided):
+
+```{r}
+facilityR0(S,C,A,transm,initS,mgf)
+```
+
+## Facility model equilibrium
+
+We will demonstrate how to calculate the equilibrium of the full system of equations, with a given set of initial conditions, i.e. distribution of patient states at admission, using the `facilityeq` function. The following components of the system are required as inputs to the function call below.
+
