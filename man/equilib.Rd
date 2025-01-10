@@ -4,7 +4,7 @@
 \alias{equilib}
 \title{Calculate the equilibrium of a linear facility model}
 \usage{
-equilib(M, init, mgf)
+equilib(M, init, mgf = NULL)
 }
 \arguments{
 \item{M}{A matrix of state transition rates between facility patient states}

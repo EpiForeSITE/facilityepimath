@@ -17,13 +17,13 @@ test_that("facilityeq() works for Model 1", {
   Ceqexact <- Ceq(alpha)
   eqexact <- c(1-Ceqexact, Ceqexact)
 
-  facilityeqtest <- facilityeq(Sfun=function(x) -x,
-                               C=0,
-                               Afun=function(x) x,
-                               R=0,
-                               transm=bet,
-                               init=c(1-pa,pa),
-                               mgf=mgf)
+  facilityeqtest <- facilityeq(S = 0,
+                               C = 0,
+                               A = 1,
+                               R = 0,
+                               transm = bet,
+                               init = c(1-pa,pa),
+                               mgf = mgf)
 
   expect_equal(facilityeqtest[1], eqexact[1], tolerance = sqrt(.Machine$double.eps))
   expect_equal(facilityeqtest[2], eqexact[2], tolerance = sqrt(.Machine$double.eps))
@@ -46,12 +46,12 @@ test_that("facilityeq() matrix version works for Model 1", {
   Ceqexact <- Ceq(alpha)
   eqexact <- c(1-Ceqexact, Ceqexact)
 
-  facilityeqtest <- facilityeq(Sfun=function(x) -x-rate,
-                               C=-rate,
-                               Afun=function(x) x,
-                               R=0,
-                               transm=bet,
-                               init=c(1-pa,pa))
+  facilityeqtest <- facilityeq(S = -rate,
+                               C = -rate,
+                               A = 1,
+                               R = 0,
+                               transm = bet,
+                               init = c(1-pa,pa))
 
   expect_equal(facilityeqtest[1], eqexact[1], tolerance = sqrt(.Machine$double.eps))
   expect_equal(facilityeqtest[2], eqexact[2], tolerance = sqrt(.Machine$double.eps))
@@ -75,9 +75,9 @@ test_that("facilityeq() matrix/erlang version works for Model 1", {
   Ceqexact <- Ceq(alpha)
   eqexact <- c(1-Ceqexact, Ceqexact)
 
-  facilityeqtest <- facilityeq(Sfun = function(x) rbind(c(-x-rate,0),c(rate,-x-rate)),
+  facilityeqtest <- facilityeq(S = rbind(c(-rate,0),c(rate,-rate)),
                                C = rbind(c(-rate,0),c(rate,-rate)),
-                               Afun = function(x) rbind(c(x,0),c(0,x)),
+                               A = rbind(c(1,0),c(0,1)),
                                R = matrix(0,2,2),
                                transm = c(bet,bet),
                                init=c(1-pa,0,pa,0))
@@ -106,9 +106,9 @@ test_that("facilityeq() works for Model 2", {
   Ceqexact <- Ceq(alpha)
   eqexact <- c(1-Ceqexact, Ceqexact)
 
-  facilityeqtest <- facilityeq(Sfun = function(x) -x,
+  facilityeqtest <- facilityeq(S = 0,
                                C = -gam,
-                               Afun = function(x) x,
+                               A = 1,
                                R = gam,
                                transm = bet,
                                init = c(1-pa, pa),
@@ -151,9 +151,9 @@ test_that("facilityeq() works for Model 3", {
 
   eqexact <- eq(alpha)
 
-  facilityeqtest <- facilityeq(Sfun = function(x) -x,
+  facilityeqtest <- facilityeq(S = 0,
                                C = rbind(c(-gam-dc,0),c(dc,0)),
-                               Afun = function(x) rbind(x,0),
+                               A = rbind(1,0),
                                R = cbind(gam,0),
                                transm = bet*c(1,1-eps),
                                init = c(1-pa,pa,0),

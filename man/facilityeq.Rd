@@ -4,14 +4,14 @@
 \alias{facilityeq}
 \title{Calculate the equilibrium of a facility transmission model}
 \usage{
-facilityeq(Sfun, C, Afun, R, transm, init, mgf = NULL)
+facilityeq(S, C, A, R, transm, init, mgf = NULL)
 }
 \arguments{
-\item{Sfun}{A function that produces a matrix of state transition rates between and removal from the susceptible states for a given value of the acquisition rate}
+\item{S}{A matrix of state transition rates between and removal from the susceptible states in the absence of colonized individuals}
 
 \item{C}{A matrix of state transition rates between and removal from the colonized states}
 
-\item{Afun}{A function that produces a matrix of transition rates from susceptible to colonized states for a given value of the acquisition rate}
+\item{A}{A matrix describing transitions from susceptible to colonized states at acquisition}
 
 \item{R}{A matrix of recovery rates: state transition rates from colonized to susceptible states}
 
@@ -28,13 +28,13 @@ A vector with the proportion of patients in each state at equilibrium
 Calculate the equilibrium of a facility transmission model
 }
 \examples{
-Sfun <- function(x) -x
+S <- 0
 C <- rbind(c(-0.38,0),c(0.08,0))
-Afun <- function(x) rbind(x,0)
+A <- rbind(1,0)
 R <- cbind(0.3,0)
 transm <- c(0.1,0.05)
 init <- c(0.99,0.01,0)
 mgf <- function(x, deriv=0) MGFgamma(x, rate=0.2, shape=3, deriv)
-facilityeq(Sfun, C, Afun, R, transm, init, mgf)
+facilityeq(S, C, A, R, transm, init, mgf)
 
 }
