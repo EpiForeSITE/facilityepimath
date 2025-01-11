@@ -116,7 +116,7 @@ facilityR0(S,C,A,transm,initS)
 ```
 Note that when $h(t)=0$, the removal rates (discharge and death) are entirely governed by the $\omega_i$ values, which must be set such that patients in any state must be guaranteed to eventually reach a state for which $\omega_i>0$; otherwise, patients can have an infinitely long length of stay in the facility.
 
-### The `mgf` function: moment generating function associated with $h(t) != 0$
+### The `mgf` function: moment generating function associated with $h(t)\neq0$
 
 When the time-of-stay-dependent removal rate $h(t)\neq0$, there is one additional argument required as input to the `facilityR0` function: a function `mgf(x,deriv)` that is the moment-generating function (and its derivatives) of the distribution for which $h(t)$ is the hazard function. This is the length of stay distribution when the state-dependent removal rates $\omega$ are all zero, as in the following example.
 ```{r}
@@ -144,6 +144,48 @@ facilityR0(S,C,A,transm,initS,mgf)
 
 We will demonstrate how to calculate the equilibrium of the full system of equations, with a given set of initial conditions, i.e. distribution of patient states at admission, using the `facilityeq` function. The following components of the system are required as inputs to the function call below.
 
-### The `Sfun` function; susceptible state transitions
+The matrix `S`, the matrix `C`, the matrix `A`, the vector `transm`, and the (optional) function `mgf` are the same as those required by the `facilityR0` function as described above. The following are new components:
 
-A matrix `S` governing the transitions between, and out of, the states $S_1$ and $S_2$ in the absence of any colonized patients "invading" the facility (i.e., all state transitions except for acquiring colonization):
+### The `R` matrix: recovery rates
+
+The matrix `R` describing C-to-S state transition rates:
+\[R = \left(
+\begin{matrix}
+    r_{11} & r_{12} \\
+    r_{21} & r_{22}
+\end{matrix}\right)
+\]
+```{r}
+R <- rbind(c(r11,r12),c(r21,r22))
+```
+
+### The `init` vector: admission state distribution
+A vector `init` containing the admission state probabilities for all four compartments: $((1-p_a)\theta_1,(1-p_a)(1-\theta_1),p_a\kappa_1,p_a(1-\kappa_1))$
+
+```{r}
+pa <- 0.05; kappa1 <- 1; kappa2 <- 1-kappa1
+init <- c((1-pa)*theta1, (1-pa)*theta2, pa*kappa1, pa*kappa2)
+```
+Here we have modeled an importation probability (probability of an admitted patient being colonized at admission) of 5%, and assumed that all admitted colonized patients are in state $C_1$. 
+
+The `init` vector should sum to 1.
+
+### `facilityeq` function call with $h(t)\neq0$
+
+We can now calculate the equilibrium of the facility model:
+
+```{r}
+facilityeq(S, C, A, R, transm, init, mgf)
+```
+The result is the portion of patients in the facility who are in each of the state $S_1$, $S_2$, $C_1$, and $C_2$, respectively, at equilibrium.
+
+### `facilityeq` function call with $h(t)=0$
+
+We can also leave out the mgf argument when $h(t)=0$, but should first reintroduce positive $omega$ values in the diagonal of the $S$ and $C$ matrices to represent discharge of patients:
+
+```{r}
+omega1 <- omega2 <- omega3 <- omega4 <- 0.1
+S <- rbind(c(-s21-omega1, s12), c(s21, -s12-omega2))
+C <- rbind(c(-c21-r11-r21-omega3, c12), c(c21, -c12-r12-r22-omega4))
+facilityeq(S, C, A, R, transm, init)
+```
