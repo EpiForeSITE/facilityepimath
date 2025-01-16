@@ -118,6 +118,66 @@ test_that("facilityeq() works for Model 2", {
   expect_equal(facilityeqtest[2], eqexact[2], tolerance = sqrt(.Machine$double.eps))
 })
 
+test_that("facilityeq() steps work for Model 2", {
+  prob <- c(0.58, 1-0.58)
+  rate <- c(0.0285, 0.179)
+  shape <- c(1, 5.74)
+  bet <- 0.051
+  gam <- 0.0026
+  pa <- 0.011
+
+  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob, rate, shape, deriv)
+
+  K <- function(x, deriv = 0)
+    ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
+
+  Ceq <- function(alpha) alpha/(alpha+gam)-(alpha/(alpha+gam)-pa)*K(-alpha-gam)/K(0)
+
+  alpha <- optimize(f = function(x) (x-bet*Ceq(x))^2, interval = c(0,1), tol=1e-10)$minimum
+
+  Ceqexact <- Ceq(alpha)
+  eqexact <- c(1-Ceqexact, Ceqexact)
+
+  S <- 0
+  C <- -gam
+  A <- 1
+  R <- gam
+  transm <- bet
+  init <- c(1-pa, pa)
+
+  Sfun <- function(x) S-diag(colSums(as.matrix(A)))*x
+  Afun <- function(x) A*x
+
+  mfun <- function(alpha) rbind(cbind(Sfun(alpha),as.matrix(R)),cbind(Afun(alpha),as.matrix(C)))
+  colinds <- (nrow(as.matrix(R))+1):(nrow(as.matrix(R))+nrow(as.matrix(C)))
+
+  getbeta <- function(alpha){
+    eq <- equilib(mfun(alpha),init,mgf)
+    alpha/sum(eq[colinds]*transm)
+  }
+
+  maxalpha <- 1
+  while(getbeta(maxalpha) < 1) maxalpha <- maxalpha*10
+  alphatest <- optimize(f = function(x) (getbeta(x) - 1)^2, interval = c(0,maxalpha), tol=1e-10)$minimum
+
+  expect_equal(alpha, alphatest, tolerance = sqrt(.Machine$double.eps))
+
+  M <- mfun(alphatest)
+  expect_equal(M[1,1],-0.0146793, tolerance = 1e-6)
+  expect_equal(M[2,1],0.0146793, tolerance = 1e-6)
+  expect_equal(M[1,2],0.0026, tolerance = 1e-6)
+  expect_equal(M[2,2],-0.0026, tolerance = 1e-6)
+
+  K <- function(x, deriv = 0)
+    ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
+  K <- Vectorize(K,'x')
+  eig <- eigen(M)
+  solveV <- solve(eig$vectors,init)
+  Klamb <- K(eig$values)
+  numK <- as.vector(eig$vectors %*% (solveV * Klamb))
+  #eq <- equilib(mfun(alpha),init,mgf)
+})
+
 
 test_that("facilityeq() works for Model 3", {
   prob <- c(0.58, 1-0.58)
