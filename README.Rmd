@@ -26,7 +26,7 @@ You can install the development version of facilityepimath from [GitHub](https:/
 
 ``` r
 # install.packages("pak")
-pak::pak("damontoth/facilityepimath")
+pak::pak("EpiForeSITE/facilityepimath")
 ```
 
 ## Example
