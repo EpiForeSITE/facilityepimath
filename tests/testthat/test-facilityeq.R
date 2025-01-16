@@ -156,7 +156,7 @@ test_that("facilityeq() steps work for Model 2", {
     alpha/sum(eq[colinds]*transm)
   }
 
-  maxalpha <- 1
+  maxalpha <- 0.977
   while(getbeta(maxalpha) < 1) maxalpha <- maxalpha*10
   alphatest <- optimize(f = function(x) (getbeta(x) - 1)^2, interval = c(0,maxalpha), tol=1e-10)$minimum
 
@@ -169,7 +169,7 @@ test_that("facilityeq() steps work for Model 2", {
   expect_equal(getbeta(alpha), 1, tolerance = 1e-6)
 
   #expect_equal(getbeta(0.58), 12.00998, tolerance = 1e-4)
-  #expect_equal(alpha, alphatest, tolerance = sqrt(.Machine$double.eps))
+  expect_equal(alpha, alphatest, tolerance = sqrt(.Machine$double.eps))
 
   M <- mfun(alpha)
   expect_equal(M[1,1], -0.0146793, tolerance = 1e-6)
