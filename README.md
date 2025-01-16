@@ -17,8 +17,8 @@ You can install the development version of facilityepimath from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("EpiForeSITE/facilityepimath")
+# install.packages("facilityepimath")
+devtools::install_github("EpiForeSITE/facilityepimath")
 ```
 
 ## Example
