@@ -1,10 +1,13 @@
 Package: facilityepimath
-Title: Functions to Analyze Mathematical Models of Transmission in Healthcare Facilities
+Title: Analyze Mathematical Models of Healthcare Facility Transmission
 Version: 0.0.0.9000
 Authors@R: 
     person("Damon", "Toth", , "damon.toth@hsc.utah.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7393-4814"))
-Description: Functions to calculate useful quantities for a user-defined differential equation model of infectious disease transmission among individuals in a healthcare facility, including the basic facility reproduction number and model equilibrium.
+Description: Functions to calculate useful quantities for a user-defined
+    differential equation model of infectious disease transmission among individuals
+    in a healthcare facility, including the basic facility reproduction number and
+    model equilibrium.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
