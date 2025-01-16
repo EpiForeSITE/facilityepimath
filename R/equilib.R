@@ -20,7 +20,7 @@ equilib <- function(M, init, mgf=NULL){
   K <- Vectorize(K,'x')
   eig <- eigen(M)
   solveV <- solve(eig$vectors,init)
-  Klamb <- K(eig$values)
+  Klamb <- K(sapply(eig$values,function(x) min(x,0)))
   numK <- as.vector(eig$vectors %*% (solveV * Klamb))
   numK/sum(numK)
 }
