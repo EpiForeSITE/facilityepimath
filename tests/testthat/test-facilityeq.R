@@ -163,21 +163,39 @@ test_that("facilityeq() steps work for Model 2", {
   expect_equal(alpha, alphatest, tolerance = sqrt(.Machine$double.eps))
 
   M <- mfun(alphatest)
-  expect_equal(M[1,1],-0.0146793, tolerance = 1e-6)
-  expect_equal(M[2,1],0.0146793, tolerance = 1e-6)
-  expect_equal(M[1,2],0.0026, tolerance = 1e-6)
-  expect_equal(M[2,2],-0.0026, tolerance = 1e-6)
+  expect_equal(M[1,1], -0.0146793, tolerance = 1e-6)
+  expect_equal(M[2,1], 0.0146793, tolerance = 1e-6)
+  expect_equal(M[1,2], 0.0026, tolerance = 1e-6)
+  expect_equal(M[2,2], -0.0026, tolerance = 1e-6)
 
   K <- function(x, deriv = 0)
     ifelse(x == 0, mgf(0, deriv+1)/(deriv+1), ifelse(deriv == 0, (mgf(x)-1)/x, (mgf(x, deriv) - deriv * K(x, deriv-1))/x))
   K <- Vectorize(K,'x')
   eig <- eigen(M)
-  solveV <- solve(eig$vectors,init)
-  Klamb <- K(eig$values)
-  numK <- as.vector(eig$vectors %*% (solveV * Klamb))
-  #eq <- equilib(mfun(alpha),init,mgf)
-})
 
+  expect_equal(eig$values[1], -0.0172793, tolerance = 1e-6)
+  expect_equal(eig$values[2], 0, tolerance = 1e-6)
+  expect_equal(eig$vectors[1,1], -0.7071068, tolerance = 1e-6)
+  expect_equal(eig$vectors[2,1], 0.7071068, tolerance = 1e-6)
+  expect_equal(eig$vectors[1,2], -0.1744056, tolerance = 1e-6)
+  expect_equal(eig$vectors[2,2], -0.9846739, tolerance = 1e-6)
+
+  solveV <- solve(eig$vectors,init)
+
+  expect_equal(solveV[1], -1.1858619, tolerance = 1e-6)
+  expect_equal(solveV[2], -0.8627536, tolerance = 1e-6)
+
+  Klamb <- K(eig$values)
+
+  expect_equal(Klamb[1], 22.65414, tolerance = 1e-4)
+  expect_equal(Klamb[2], 33.81903, tolerance = 1e-4)
+
+  numK <- as.vector(eig$vectors %*% (solveV * Klamb))
+
+  expect_equal(numK[1], 24.084919, tolerance = 1e-5)
+  expect_equal(numK[2], 9.734115, tolerance = 1e-5)
+
+})
 
 test_that("facilityeq() works for Model 3", {
   prob <- c(0.58, 1-0.58)
