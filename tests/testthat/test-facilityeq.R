@@ -156,7 +156,7 @@ test_that("facilityeq() steps work for Model 2", {
     alpha/sum(eq[colinds]*transm)
   }
 
-  maxalpha <- 0.977
+  maxalpha <- 0.02
   while(getbeta(maxalpha) < 1) maxalpha <- maxalpha*10
   alphatest <- optimize(f = function(x) (getbeta(x) - 1)^2, interval = c(0,maxalpha), tol=1e-10)$minimum
 
