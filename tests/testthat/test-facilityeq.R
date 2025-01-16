@@ -160,6 +160,8 @@ test_that("facilityeq() steps work for Model 2", {
   while(getbeta(maxalpha) < 1) maxalpha <- maxalpha*10
   alphatest <- optimize(f = function(x) (getbeta(x) - 1)^2, interval = c(0,maxalpha), tol=1e-10)$minimum
 
+  expect_equal(getbeta(0.58), 12.00998, tolerance = 1e-4)
+
   expect_equal(alpha, alphatest, tolerance = sqrt(.Machine$double.eps))
 
   M <- mfun(alphatest)
