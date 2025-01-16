@@ -164,6 +164,9 @@ test_that("facilityeq() steps work for Model 2", {
   expect_equal(eqtest[1], eqexact[1], tolerance = 1e-6)
   expect_equal(eqtest[2], eqexact[2], tolerance = 1e-6)
 
+  betatest <- alpha/sum(eqtest[colinds]*transm)
+  expect_equal(betatest, 1, tolerance = 1e-6)
+
   #expect_equal(getbeta(0.58), 12.00998, tolerance = 1e-4)
   #expect_equal(alpha, alphatest, tolerance = sqrt(.Machine$double.eps))
 
