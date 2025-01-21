@@ -4,10 +4,14 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Damon", "Toth", , "damon.toth@hsc.utah.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7393-4814"))
-Description: Functions to calculate useful quantities for a user-defined
-    differential equation model of infectious disease transmission among individuals
-    in a healthcare facility, including the basic facility reproduction number and
-    model equilibrium.
+Description: Calculate useful quantities for a user-defined differential equation
+    model of infectious disease transmission among individuals in a healthcare
+    facility. Input rates of transition between states of individuals with and
+    without the disease-causing organism, distributions of states at facility
+    admission, relative infectivity of transmissible states, and the facility length
+    of stay distribution. Calculate the model equilibrium and the basic facility
+    reproduction number.
+    
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
