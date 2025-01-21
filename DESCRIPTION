@@ -2,8 +2,11 @@ Package: facilityepimath
 Title: Analyze Mathematical Models of Healthcare Facility Transmission
 Version: 0.0.0.9000
 Authors@R: 
-    person("Damon", "Toth", , "damon.toth@hsc.utah.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-7393-4814"))
+    c(person("Damon", "Toth", , "damon.toth@hsc.utah.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-7393-4814")),
+      person("Centers for Disease Control and Prevention", role="fnd",
+      comment = "Modeling Infectious Diseases in Healthcare Network award number
+      U01CK000585"))
 Description: Calculate useful quantities for a user-defined differential equation
     model of infectious disease transmission among individuals in a healthcare
     facility. Input rates of transition between states of individuals with and

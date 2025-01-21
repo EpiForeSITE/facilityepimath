@@ -11,6 +11,10 @@ quantities for a user-defined differential equation model of infectious
 disease transmission among individuals in a healthcare facility,
 including the basic facility reproduction number and model equilibrium.
 
+This work was supported by the Centers for Disease Control and
+Prevention, Modeling Infectious Diseases in Healthcare Network award
+U01CK000585.
+
 ## Installation
 
 You can install the development version of facilityepimath from
