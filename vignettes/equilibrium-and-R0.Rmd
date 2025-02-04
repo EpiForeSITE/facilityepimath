@@ -181,7 +181,7 @@ The result is the portion of patients in the facility who are in each of the sta
 
 ### `facilityeq` function call with $h(t)=0$
 
-We can also leave out the mgf argument when $h(t)=0$, but should first reintroduce positive $omega$ values in the diagonal of the $S$ and $C$ matrices to represent discharge of patients:
+We can also leave out the mgf argument when $h(t)=0$, but should first reintroduce positive $\omega$ values in the diagonal of the $S$ and $C$ matrices to represent discharge of patients:
 
 ```{r}
 omega1 <- omega2 <- omega3 <- omega4 <- 0.1
