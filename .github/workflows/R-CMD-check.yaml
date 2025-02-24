@@ -58,6 +58,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'devel' }}
         with:
-          name: epiworldR-built-package-${{ matrix.config.os }}-${{ matrix.config.r }}
+          name: facilityepimath-built-package-${{ matrix.config.os }}-${{ matrix.config.r }}
           path: facilityepimath*.tar.gz
           retention-days: 7
