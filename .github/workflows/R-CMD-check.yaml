@@ -22,8 +22,10 @@ jobs:
         config:
           - {os: macos-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: macos-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: windows-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
@@ -49,4 +51,15 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
-          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+          build_args: 'c("--as-cran", "--no-manual","--compact-vignettes=gs+qpdf")'
+
+      - name: Build the package
+        if: ${{ matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'devel' }}
+        run: R CMD build .
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'devel' }}
+        with:
+          name: facilityepimath-built-package-${{ matrix.config.os }}-${{ matrix.config.r }}
+          path: facilityepimath*.tar.gz
+          retention-days: 7
