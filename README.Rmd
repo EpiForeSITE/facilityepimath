@@ -27,8 +27,13 @@ This work was supported by the Centers for Disease Control and Prevention, Model
 You can install the development version of facilityepimath from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("facilityepimath")
 devtools::install_github("EpiForeSITE/facilityepimath")
+```
+
+You can install the facilitymath from CRAN with:
+
+``` r
+install.packages("facilityepimath")
 ```
 
 ## Example
