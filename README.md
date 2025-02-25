@@ -10,6 +10,12 @@ The goal of facilityepimath is to provide functions to calculate useful
 quantities for a user-defined differential equation model of infectious
 disease transmission among individuals in a healthcare facility,
 including the basic facility reproduction number and model equilibrium.
+A full description and derivation of the mathematical results
+implemented in these functions can be found in the following manuscript:
+
+Toth D, Khader K, Mitchell M, Samore M (2025). Transmission thresholds
+for the spread of infections in healthcare facilities.
+<https://doi.org/10.1101/2025.02.21.25322698>.
 
 This work was supported by the Centers for Disease Control and
 Prevention, Modeling Infectious Diseases in Healthcare Network award
