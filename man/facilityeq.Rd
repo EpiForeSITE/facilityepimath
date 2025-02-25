@@ -22,7 +22,7 @@ facilityeq(S, C, A, R, transm, init, mgf = NULL)
 \item{mgf}{The moment generating function characterizing a time-of-stay-dependent removal hazard}
 }
 \value{
-A vector with the proportion of patients in each state at equilibrium
+A vector with the proportion of patients in each state at equilibrium; the vector contains the equilibrium S states followed by C states
 }
 \description{
 Calculate the equilibrium of a facility transmission model

@@ -8,7 +8,7 @@
 #' @param init A vector of admission state probabilities to each state
 #' @param mgf The moment generating function characterizing a time-of-stay-dependent removal hazard
 #' @importFrom stats optimize
-#' @return A vector with the proportion of patients in each state at equilibrium
+#' @return A vector with the proportion of patients in each state at equilibrium; the vector contains the equilibrium S states followed by C states
 #' @examples
 #' S <- 0
 #' C <- rbind(c(-0.38,0),c(0.08,0))
