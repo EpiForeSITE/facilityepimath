@@ -1,8 +1,6 @@
 # This code produces the results in Figure 1 of the manuscript:
 # "Transmission thresholds for the spread of infections in healthcare facilities"
 
-rm(list=ls())
-
 gam <- 1/387
 eps <- 0.5
 bet <- 0.051048866
@@ -57,8 +55,6 @@ R0labs <- seq(0.8,1.3,0.1)
 
 x <- matrix(rep(chng,1),pts,1)*100
 
-par(mfrow=c(2,2))
-
 doPlot <- function(R0vals,muVals,title){
   plot(60-muVals, R0vals, lwd=2, axes=FALSE,
        type='l', lty=1, ylab = expression(paste("Facility ", italic(R)[0])),
@@ -67,7 +63,10 @@ doPlot <- function(R0vals,muVals,title){
   axis(2,R0labs,R0labs)
   lines(c(-100,200),c(1,1),col='grey',lty=3)
 }
+
+oldpar <- par(mfrow=c(2,2))
 doPlot(R0rxrg,murxrg,'Increase discharge rate of all patients')
 doPlot(R0rx,murx,'Increase discharge rate of high-variance patients')
 doPlot(R0rg,murg,'Increase discharge rate of low-variance patients')
 doPlot(R0px,mupx,'Decrease fraction of high-variance patients')
+par(oldpar)

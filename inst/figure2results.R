@@ -1,8 +1,6 @@
 # This code produces the results in Figure 2 of the manuscript:
 # "Transmission thresholds for the spread of infections in healthcare facilities"
 
-rm(list=ls())
-
 gam <- 1/387
 eps <- 0.5
 bet <- 0.051048866
@@ -41,8 +39,9 @@ randPlot <- function(statRand, xlabel){
 	plot(statRand, R0rand, pch='.', xlab=xlabel, ylab=expression(paste("Facility ", italic(R)[0])))
 }
 
-par(mfrow=c(2,2),mar=c(5,4,2,2)+.1)
+oldpar <- par(mfrow=c(2,2),mar=c(5,4,2,2)+.1)
 randPlot(muRand, 'LOS mean')
 randPlot(sqrt(sigsqRand), 'LOS standard deviation')
 randPlot(sigsqRand/muRand, 'LOS variance to mean ratio (VMR)')
 randPlot(muRand + sigsqRand/muRand, 'LOS mean plus VMR')
+par(oldpar)

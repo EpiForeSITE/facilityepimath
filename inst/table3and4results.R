@@ -1,8 +1,6 @@
 # This code produces the results in Tables 3 and 4 of the manuscript:
 # "Transmission thresholds for the spread of infections in healthcare facilities"
 
-rm(list=ls())
-
 snstvty <- 0.85
 gam <- 1/387
 eps <- 0.5
