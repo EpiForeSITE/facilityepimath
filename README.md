@@ -5,8 +5,12 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/facilityepimath)](https://CRAN.R-project.org/package=facilityepimath)
+[![CRANlogs
+downloads](https://cranlogs.r-pkg.org/badges/facilityepimath)](https://cran.r-project.org/package=facilityepimath)
 [![ForeSITE
-Group](https://github.com/EpiForeSITE/software/blob/e82ed88f75e0fe5c0a1a3b38c2b94509f122019c/docs/assets/foresite-software-badge.svg)](https://github.com/EpiForeSITE)
+Group](https://github.com/EpiForeSITE/software/raw/e82ed88f75e0fe5c0a1a3b38c2b94509f122019c/docs/assets/foresite-software-badge.svg)](https://github.com/EpiForeSITE)
 <!-- badges: end -->
 
 The goal of facilityepimath is to provide functions to calculate useful
