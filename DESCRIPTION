@@ -6,7 +6,7 @@ Authors@R:
            comment = c(ORCID = "0000-0001-7393-4814")),
       person("Centers for Disease Control and Prevention", role="fnd",
       comment = "Modeling Infectious Diseases in Healthcare Network award number
-      U01CK000585"))
+      U01CK000585 and Insight Net award number CDC-RFA-FT-23-0069"))
 Description: Calculate useful quantities for a user-defined differential equation
     model of infectious disease transmission among individuals in a healthcare
     facility. Input rates of transition between states of individuals with and

@@ -1,0 +1,49 @@
+# This code produces the results in Figure 3 of the manuscript:
+# "Transmission thresholds for the spread of infections in healthcare facilities" by Toth et al. (2025)
+
+library(facilityepimath)
+
+gam <- 1/387
+eps <- 0.5
+bet <- 0.051048866
+deltaC <- 0.008447451
+px <- 0.57993299
+rx <- 0.02849861
+rg <- 0.17911358
+k <- 5.73518945
+
+getMu <- function(px, rx, rg, k) px/rx + (1-px)*k/rg
+
+getSigsq <- function(px, rx, rg, k)
+  2*px/rx^2 + (1-px)*k*(k+1)/rg^2 - (px/rx + (1-px)*k/rg)^2
+
+getR0intervention <- function(px, rx, rg, k){
+
+  mgf <- function(x, deriv=0) MGFmixedgamma(x, prob = c(px, 1-px),
+                                            rate = c(rx, rg),
+                                            shape = c(1,k), deriv)
+
+  facilityR0(S = 0, C = rbind(c(-deltaC-gam,0),c(deltaC,0)), A = rbind(1,0),
+             transm = bet*c(1,1-eps), initS = 1, mgf = mgf)
+}
+getR0intervention <- Vectorize(getR0intervention)
+
+rxRand <- rx*(0.6+runif(1000)*0.8)
+rgRand <- rg*(0.6+runif(1000)*0.8)
+kRand <- k*(0.6+runif(1000)*0.8)
+pxRand <- px*(0.6+runif(1000)*0.8)
+
+R0rand <- getR0intervention(rx=rxRand, rg=rgRand, k=kRand, px=pxRand)
+muRand <- getMu(rx=rxRand, rg=rgRand, k=kRand, px=pxRand)
+sigsqRand <- getSigsq(rx=rxRand, rg=rgRand, k=kRand, px=pxRand)
+
+randPlot <- function(statRand, xlabel){
+	plot(statRand, R0rand, pch='.', xlab=xlabel, ylab=expression(paste("Facility ", italic(R)[0])))
+}
+
+oldpar <- par(mfrow=c(2,2),mar=c(5,4,2,2)+.1)
+randPlot(muRand, 'LOS mean')
+randPlot(sqrt(sigsqRand), 'LOS standard deviation')
+randPlot(sigsqRand/muRand, 'LOS variance to mean ratio (VMR)')
+randPlot(muRand + sigsqRand/muRand, 'LOS mean plus VMR')
+par(oldpar)

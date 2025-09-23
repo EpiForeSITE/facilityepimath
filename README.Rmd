@@ -27,7 +27,7 @@ The goal of facilityepimath is to provide functions to calculate useful quantiti
 
 Toth D, Khader K, Mitchell M, Samore M (2025). Transmission thresholds for the spread of infections in healthcare facilities. https://doi.org/10.1101/2025.02.21.25322698.
 
-This work was supported by the Centers for Disease Control and Prevention, Modeling Infectious Diseases in Healthcare Network award U01CK000585.
+This work was supported by the Centers for Disease Control and Prevention, Modeling Infectious Diseases in Healthcare Network award U01CK000585 and Insight Net award number CDC-RFA-FT-23-0069.
 
 ## Installation
 
