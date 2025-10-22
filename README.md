@@ -21,8 +21,9 @@ A full description and derivation of the mathematical results
 implemented in these functions can be found in the following manuscript:
 
 Toth D, Khader K, Mitchell M, Samore M (2025). Transmission thresholds
-for the spread of infections in healthcare facilities.
-<https://doi.org/10.1101/2025.02.21.25322698>.
+for the spread of infections in healthcare facilities. PLoS
+Computational Biology 21(10): e1013577.
+<https://doi.org/10.1371/journal.pcbi.1013577>.
 
 This work was supported by the Centers for Disease Control and
 Prevention, Modeling Infectious Diseases in Healthcare Network award

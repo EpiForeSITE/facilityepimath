@@ -14,7 +14,7 @@ Description: Calculate useful quantities for a user-defined differential equatio
     admission, relative infectivity of transmissible states, and the facility length
     of stay distribution. Calculate the model equilibrium and the basic facility
     reproduction number, as described in Toth et al. (2025) 
-    <doi:10.1101/2025.02.21.25322698>.
+    <doi:10.1371/journal.pcbi.1013577>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
