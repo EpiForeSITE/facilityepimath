@@ -1,0 +1,6 @@
+url: https://epiforesite.github.io/facilityepimath/
+
+template:
+  bootstrap: 5
+  math-rendering: mathjax
+
