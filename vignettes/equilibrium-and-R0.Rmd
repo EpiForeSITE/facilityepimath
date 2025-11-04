@@ -1,5 +1,5 @@
 ---
-title: "equilibrium-and-R0"
+title: "Equilibrium and $R_0$ calculation"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{equilibrium-and-R0}
@@ -88,7 +88,7 @@ The next input requirement is a matrix `A` describing the S-to-C state transitio
 a11 <- 1; a22 <- 2; a12 <- a21 <- 0
 A <- rbind(c(a11,a12),c(a21,a22))
 ```
-The $a_ij$ rates describe which of the two colonized states can be entered from each of the two susceptible states at the moment of acquiring colonization; in the above example, state $S_1$ patients move only to state $C_1$ and state $S_2$ patients move only to state $C_2$. The $a_ij$ values also describe the \emph{relative} susceptibility of the two $S$ states; in the above example, state $S_2$ patients are twice as susceptible as state $S_1$ patients.
+The $a_{ij}$ rates describe which of the two colonized states can be entered from each of the two susceptible states at the moment of acquiring colonization; in the above example, state $S_1$ patients move only to state $C_1$ and state $S_2$ patients move only to state $C_2$. The $a_{ij}$ values also describe the \emph{relative} susceptibility of the two $S$ states; in the above example, state $S_2$ patients are twice as susceptible as state $S_1$ patients.
 
 ### The `transm` vector: transmission rates
 The next required input is a vector `transm` containing the $\beta$ coefficients (transmission rates from each colonized compartment) appearing in the $\alpha$ equation above: $(\beta_1,\beta_2)$
