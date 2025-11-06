@@ -1,8 +1,8 @@
 ---
-title: "Equilibrium and $R_0$ calculation"
+title: "Facility basic reproduction number and equilibrium calculations"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{equilibrium-and-R0}
+  %\VignetteIndexEntry{facility-R0-and-equilibrium}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
