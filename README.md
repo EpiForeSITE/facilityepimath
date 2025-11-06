@@ -126,7 +126,7 @@ colonized patient is introduced): $(\theta_1,1-\theta_1)$
 
 A function `mgf(x,deriv)` that is the moment-generating function (and
 its derivatives) of the distribution for which the
-time-of-stay-dependent removal rate `h(t)` is the hazard function. This
+time-of-stay-dependent removal rate $h(t)$ is the hazard function. This
 is the length of stay distribution when the state-dependent removal
 rates $\omega$ are zero.
 
