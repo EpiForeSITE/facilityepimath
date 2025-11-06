@@ -1,6 +1,6 @@
 
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
 # facilityepimath
 
@@ -60,24 +60,24 @@ respectively.
 A system of differential equations with those 4 compartments may take
 the following general form:
 
-\[ = -(s\_{21}+(a\_{11}+a\_{21})+*1+h(t))S_1 + s*{12}S_2 + r\_{11}C_1 +
-r\_{12}C_2\]
+$$
+\frac{dS_1}{dt} = -(s_{21}+(a_{11}+a_{21})\alpha+\omega_1+h(t))S_1 + s_{12}S_2 + r_{11}C_1 + r_{12}C_2
+$$
 
-\[ = s\_{21}S_1 - (s\_{12}+(a\_{12}+a\_{22})+*2+h(t))S_2 + r*{21}C_1 +
-r\_{22}C_2 \]
-
-\[ = a\_{11}S_1 + a\_{12}S_2 - (c\_{21}+r\_{11}+r\_{21}+*3+h(t))C_1 +
-c*{12}C_2 \]
-
-\[ = a\_{21}S_1 + a\_{22}S_2 + c\_{21}C_1 -
-(c\_{12}+r\_{12}+r\_{22}+\_4+h(t))C_2 \]
+$$
+\frac{dS_2}{dt} = s_{21}S_1 - (s_{12}+(a_{12}+a_{22})\alpha+\omega_2+h(t))S_2 + r_{21}C_1 + r_{22}C_2
+$$ $$
+\frac{dC_1}{dt} = a_{11}\alpha S_1 + a_{12}\alpha S_2 - (c_{21}+r_{11}+r_{21}+\omega_3+h(t))C_1 + c_{12}C_2
+$$ $$
+\frac{dC_2}{dt} = a_{21}\alpha S_1 + a_{22}\alpha S_2 + c_{21}C_1 - (c_{12}+r_{12}+r_{22}+\omega_4+h(t))C_2
+$$
 
 The acquisition rate $\alpha$ appearing in each equation, and governing
 the transition rates between the S compartments and the C compartments,
 is assumed to depend on the number of colonized patients in the
 facility, as follows:
 
-\[ = \_1 C_1 + \_2 C_2 \]
+$$\alpha = \beta_1 C_1 + \beta_2 C_2$$
 
 We will demonstrate how to calculate the basic reproduction number $R_0$
 of this system using the `facilityR0` function. The following components
@@ -86,20 +86,35 @@ of the system are required as inputs to the function call below.
 A matrix `S` governing the transitions between, and out of, the states
 $S_1$ and $S_2$ in the absence of any colonized patients:
 
-\[S = (
-) \]
+$$
+S = \left(
+\begin{matrix}
+    -s_{21}-\omega_1 & s_{12} \\
+    s_{21} & -s_{12}-\omega_2
+\end{matrix}\right)
+$$
 
 A matrix `C` governing the transitions between, and out of, the states
 $C_1$ and $C_2$:
 
-\[C = (
-) \]
+$$
+C = \left(
+\begin{matrix}
+    -c_{21}-r_{11}-r_{21}-\omega_3 & c_{12} \\
+    c_{21} & -c_{12}-r_{12}-r_{22}-\omega_4
+\end{matrix}\right)
+$$
 
 A matrix `A` describing the S-to-C state transitions when an acquisition
 occurs:
 
-\[A = (
-) \]
+$$
+A = \left(
+\begin{matrix}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22}
+\end{matrix}\right)
+$$
 
 A vector `transm` containing the $\beta$ coefficients (transmission
 rates from each colonized compartment) appearing in the $\alpha$
