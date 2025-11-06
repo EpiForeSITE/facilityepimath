@@ -1,5 +1,6 @@
 # This code produces the results in Tables 3 and 4 of the manuscript:
 # "Transmission thresholds for the spread of infections in healthcare facilities" by Toth et al. (2025)
+# https://doi.org/10.1371/journal.pcbi.1013577
 
 library(facilityepimath)
 
