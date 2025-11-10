@@ -42,8 +42,8 @@ jobs:
           path: "docs/"
 
   deploy:
-    # check builds on PRs but only deploy when main changes
-    if: ${{ github.event_name != 'pull_request' }}
+    # check builds on PRs but only deploy when main/master branch changes
+    if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') }}
     needs: pkgdown
     runs-on: ubuntu-latest
     permissions:
