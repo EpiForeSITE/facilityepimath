@@ -7,7 +7,7 @@
 #' @param transm A vector of transmission rates from each colonized state
 #' @param init A vector of admission state probabilities to each state
 #' @param mgf The moment generating function characterizing a time-of-stay-dependent removal hazard
-#' @importFrom stats optimize
+#' @importFrom stats uniroot
 #' @return A vector with the proportion of patients in each state at equilibrium; the vector contains the equilibrium S states followed by C states
 #' @examples
 #' S <- 0
@@ -35,7 +35,7 @@ facilityeq <- function(S,C,A,R,transm,init,mgf=NULL){
 
   maxalpha <- 0.02
   while(getbeta(maxalpha) < 1) maxalpha <- maxalpha*10
-  alpha <- optimize(f = function(x) (getbeta(x) - 1)^2, interval = c(0,maxalpha), tol=1e-10)$minimum
+  alpha <- uniroot(f = function(x) getbeta(x) - 1, interval = c(0,maxalpha), tol=1e-10)$root
 
   equilib(mfun(alpha),init,mgf)
 }
