@@ -1,3 +1,5 @@
+# facilityepimath 0.2.2
+
 # facilityepimath 0.2.1
 
 * Re-release on CRAN
