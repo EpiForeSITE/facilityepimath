@@ -2,4 +2,17 @@
 
 0 errors | 0 warnings | 0 notes
 
-* This is an update containing new installed files that are referenced in a new publication, Toth et al. (2025): https://doi.org/10.1371/journal.pcbi.1013577, with minor patch edits since publication
+## Resubmission
+
+This is a resubmission following a remaining test failure with the MKL
+alternative BLAS/LAPACK implementation.
+
+### Changes
+
+* Changed equilibrium root calculations from minimizing squared residuals
+  with `optimize()` to solving the corresponding equations directly with
+  `uniroot()`, including both the package implementation and test
+  calculations.
+* Adjusted the tolerance for one test comparing independently calculated
+  equilibrium roots from `sqrt(.Machine$double.eps)` to `1e-5` to account
+  for numerical differences across BLAS/LAPACK implementations.

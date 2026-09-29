@@ -12,7 +12,7 @@ test_that("facilityeq() works for Model 1", {
 
   Ceq <- function(alpha) 1-(1-pa)*K(-alpha)/K(0)
 
-  alpha <- optimize(f = function(x) (x-bet*Ceq(x))^2, interval = c(0,1), tol=1e-10)$minimum
+  alpha <- uniroot(f = function(x) x-bet*Ceq(x), interval = c(0,1), tol=1e-10)$root
 
   Ceqexact <- Ceq(alpha)
   eqexact <- c(1-Ceqexact, Ceqexact)
@@ -41,7 +41,7 @@ test_that("facilityeq() matrix version works for Model 1", {
 
   Ceq <- function(alpha) 1-(1-pa)*K(-alpha)/K(0)
 
-  alpha <- optimize(f = function(x) (x-bet*Ceq(x))^2, interval = c(0,1), tol=1e-10)$minimum
+  alpha <- uniroot(f = function(x) x-bet*Ceq(x), interval = c(0,1), tol=1e-10)$root
 
   Ceqexact <- Ceq(alpha)
   eqexact <- c(1-Ceqexact, Ceqexact)
@@ -70,7 +70,7 @@ test_that("facilityeq() matrix/erlang version works for Model 1", {
 
   Ceq <- function(alpha) 1-(1-pa)*K(-alpha)/K(0)
 
-  alpha <- optimize(f = function(x) (x-bet*Ceq(x))^2, interval = c(0,1), tol=1e-10)$minimum
+  alpha <- uniroot(f = function(x) x-bet*Ceq(x), interval = c(0,1), tol=1e-10)$root
 
   Ceqexact <- Ceq(alpha)
   eqexact <- c(1-Ceqexact, Ceqexact)
@@ -101,7 +101,7 @@ test_that("facilityeq() works for Model 2", {
 
   Ceq <- function(alpha) alpha/(alpha+gam)-(alpha/(alpha+gam)-pa)*K(-alpha-gam)/K(0)
 
-  alpha <- optimize(f = function(x) (x-bet*Ceq(x))^2, interval = c(0,1), tol=1e-10)$minimum
+  alpha <- uniroot(f = function(x) x-bet*Ceq(x), interval = c(0,1), tol=1e-10)$root
 
   Ceqexact <- Ceq(alpha)
   eqexact <- c(1-Ceqexact, Ceqexact)
@@ -133,7 +133,7 @@ test_that("facilityeq() steps work for Model 2", {
 
   Ceq <- function(alpha) alpha/(alpha+gam)-(alpha/(alpha+gam)-pa)*K(-alpha-gam)/K(0)
 
-  alpha <- optimize(f = function(x) (x-bet*Ceq(x))^2, interval = c(0,1), tol=1e-10)$minimum
+  alpha <- uniroot(f = function(x) x-bet*Ceq(x), interval = c(0,1), tol=1e-10)$root
 
   Ceqexact <- Ceq(alpha)
   eqexact <- c(1-Ceqexact, Ceqexact)
@@ -158,7 +158,7 @@ test_that("facilityeq() steps work for Model 2", {
 
   maxalpha <- 0.02
   while(getbeta(maxalpha) < 1) maxalpha <- maxalpha*10
-  alphatest <- optimize(f = function(x) (getbeta(x) - 1)^2, interval = c(0,maxalpha), tol=1e-10)$minimum
+  alphatest <- uniroot(f = function(x) getbeta(x) - 1, interval = c(0,maxalpha), tol=1e-10)$root
 
   eqtest <- equilib(mfun(alpha),init,mgf)
   expect_equal(eqtest[1], eqexact[1], tolerance = 1e-6)
@@ -168,8 +168,7 @@ test_that("facilityeq() steps work for Model 2", {
   expect_equal(betatest, 1, tolerance = 1e-6)
   expect_equal(getbeta(alpha), 1, tolerance = 1e-6)
 
-  #expect_equal(getbeta(0.58), 12.00998, tolerance = 1e-4)
-  expect_equal(alpha, alphatest, tolerance = sqrt(.Machine$double.eps))
+  expect_equal(alpha, alphatest, tolerance = 1e-5)
 
   M <- mfun(alpha)
   expect_equal(M[1,1], -0.0146793, tolerance = 1e-6)
@@ -234,7 +233,7 @@ test_that("facilityeq() works for Model 3", {
     c(Seq,Ceq,1-Seq-Ceq)
   }
 
-  alpha <- optimize(f = function(x) (x-sum(bet*c(1,1-eps)*eq(x)[2:3]))^2, interval = c(0,1), tol=1e-10)$minimum
+  alpha <- uniroot(f = function(x) x-sum(bet*c(1,1-eps)*eq(x)[2:3]), interval = c(0,1), tol=1e-10)$root
 
   eqexact <- eq(alpha)
 

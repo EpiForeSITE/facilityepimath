@@ -51,7 +51,7 @@ facilityR0 <- function(S,C,A,transm,initS,mgf=NULL){
     KJ <- diag(K(eigM$values))
     for(lambrep in unique(eigM$values[dup])){
       Mlamb <- M-diag(lambrep,n+m)
-      inds <- which(eigM$value == lambrep)
+      inds <- which(eigM$values == lambrep)
       uniqueEigVecs <- as.matrix(P[,inds[1]])
       uniqueEigVecInds <- inds[1]
       for(i in 2:length(inds)){
