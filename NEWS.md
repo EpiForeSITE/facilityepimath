@@ -1,3 +1,7 @@
+# facilityepimath (development version)
+
+* Added the ForeSITE pkgdown brand and weekly brand-sync workflow.
+
 # facilityepimath 0.2.3
 
 # facilityepimath 0.2.2
